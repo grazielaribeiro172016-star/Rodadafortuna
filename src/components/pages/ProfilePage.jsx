@@ -24,6 +24,15 @@ export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,on
     navigator.clipboard?.writeText(referralLink).then(()=>{ setCopied(true); setTimeout(()=>setCopied(false),2000); });
   }
 
+  // Comissão real de indicação (depósitos de indicados) — separado do bônus demo acima
+  const[affStats,setAffStats]=useState(null);
+  useEffect(()=>{
+    if(!hasSupabase||!user) return;
+    let alive=true;
+    supabase.rpc('get_affiliate_stats').then(({data})=>{ if(alive&&data) setAffStats(data); }).catch(()=>{});
+    return ()=>{alive=false};
+  },[user]);
+
   return <div style={{maxWidth:480,margin:"0 auto",padding:"24px 16px 100px",textAlign:"center"}}>
     <div style={{fontSize:95,marginBottom:12}}>⭐</div>
     {user ? <>
@@ -59,6 +68,11 @@ export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,on
           <div style={{fontSize:12.5,color:"#8a96aa"}}>
             {refStats.credited>0 && <>✅ {refStats.credited} amigo{refStats.credited>1?"s":""} já jogaram e renderam bônus. </>}
             {refStats.pending>0 && <>⏳ {refStats.pending} cadastrado{refStats.pending>1?"s":""}, aguardando a 1ª rodada.</>}
+          </div>
+        )}
+        {affStats && affStats.total_earned > 0 && (
+          <div style={{fontSize:13,color:"#f5c842",fontWeight:700,marginTop:8,paddingTop:8,borderTop:"1px solid rgba(255,255,255,.08)"}}>
+            💵 Você já ganhou {fmt(affStats.total_earned)} em comissões reais de depósitos de indicados!
           </div>
         )}
       </div>
