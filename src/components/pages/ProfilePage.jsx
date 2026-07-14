@@ -99,7 +99,7 @@ export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,on
         ☁️ Saldo salvo na nuvem<br/>
         📊 Histórico de todas as rodadas<br/>
         🏆 Ranking entre jogadores<br/>
-        💳 Depósito via PIX (em breve)<br/>
+        ⚡ Deposite via PIX e comece a jogar na hora<br/>
         <span style={{color:"#f5c842",fontWeight:700}}>Crie uma conta grátis e nunca perca seu progresso!</span>
       </div>
     </Panel>}
