@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { activateAudio, sWin, sLoss, sCard } from "../../game/audio";
 import { rnd } from "../../game/rng";
 import { fmt, BETS, GAMES } from "../../game/constants";
@@ -10,12 +10,16 @@ import { BetRow } from "../shared/BetControls";
 // ═══ CARA OU COROA — RTP 91% (edge 9%) ═══════════════════════
 export function MoedaGame({G,setG,history,addHistory,user,demoMode}){
   const[pk,setPk]=useState("cara");const[flip,setFlip]=useState(false);const[busy,setBusy]=useState(false);
+  const busyR=useRef(false);
   const[shown,setShown]=useState(null);
   const[msg,setMsg]=useState("");const[mT,setMT]=useState("");
   const[lastResult,setLastResult]=useState({prize:0,bet:0});
   const streakBonus=G.streak>=5;
 
   async function play(){
+    if(busyR.current)return;
+    busyR.current=true;
+    try{
     activateAudio();const bet=BETS[G.betIdx];if(G.saldo<bet){setMsg("❌ Saldo insuficiente!");setMT("loss");return;}
     setBusy(true);setFlip(true);setMsg("");setMT("");sCard();
     const useServer = hasSupabase && user && !demoMode;
@@ -53,6 +57,8 @@ export function MoedaGame({G,setG,history,addHistory,user,demoMode}){
       if(!useServer) addHistory({txt:`🪙 Moeda ${result} −${fmt(bet)}`,type:""},{gameId:'moeda',bet,result:0,won:false});
     }
     setBusy(false);
+  
+    }finally{busyR.current=false;}
   }
 
   return <GameLayout game={GAMES.find(g=>g.id==='moeda')} G={G} setG={setG} history={history}>

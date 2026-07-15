@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { activateAudio, sBomb, sCash, sFloor } from "../../game/audio";
 import { rnd } from "../../game/rng";
 import { fmt, BETS, GAMES } from "../../game/constants";
@@ -11,11 +11,16 @@ import { BetRow } from "../shared/BetControls";
 const TF=4;const TC=3;const TM=[1.35,2.02,3.03,4.55];
 
 export function TorreMiniGame({G,setG,history,addHistory,user,demoMode}){
+  const busyR=useRef(false);
+  const[stuck,setStuck]=useState(false);
   const[tw,setTw]=useState({active:false,floor:0,bombs:[],bet:0,collected:0,roundId:null});
   const[rev,setRev]=useState({});const[msg,setMsg]=useState("");const[mT,setMT]=useState("");
   const[lastResult,setLastResult]=useState({prize:0,bet:0});
 
   async function begin(){
+    if(busyR.current)return;
+    busyR.current=true;
+    try{
     activateAudio();const bet=BETS[G.betIdx];if(G.saldo<bet){setMsg("❌ Saldo insuficiente!");setMT("loss");return;}
     const useServer = hasSupabase && user && !demoMode;
     setRev({});setMsg("");setMT("");
@@ -23,7 +28,8 @@ export function TorreMiniGame({G,setG,history,addHistory,user,demoMode}){
       const { data, error } = await supabase.rpc('torremini_start', { p_user_id: user.id, p_bet: bet });
       if(error || !data){
         console.error('[torremini_start]',error);
-        setMsg(error?.message?.includes('em andamento') ? "⚠️ Já tem uma rodada em andamento." : "⚠️ Erro ao iniciar. Tente novamente.");
+        if(error?.message?.includes('em andamento')){setStuck(true);setMsg("⚠️ Rodada anterior travada detectada.");}
+        else{setMsg("⚠️ Erro ao iniciar. Tente novamente.");}
         setMT("loss");return;
       }
       setG(p=>({...p,saldo:p.saldo-bet}));
@@ -34,9 +40,14 @@ export function TorreMiniGame({G,setG,history,addHistory,user,demoMode}){
       setTw({active:true,floor:0,bombs:b,bet,collected:0,roundId:null});
     }
     setMsg("🗼 Escolha a célula segura para subir!");setMT("teal");
+  
+    }finally{busyR.current=false;}
   }
 
   async function step(f,c){
+    if(busyR.current)return;
+    busyR.current=true;
+    try{
     if(!tw.active||f!==tw.floor)return;
     const useServer = hasSupabase && user && !demoMode;
 
@@ -84,9 +95,14 @@ export function TorreMiniGame({G,setG,history,addHistory,user,demoMode}){
         setMsg(`Andar ${TF-f} ✅ — ×${m.toFixed(2)} | Suba ou saque!`);setMT("teal");
       }
     }
+  
+    }finally{busyR.current=false;}
   }
 
   async function saque(){
+    if(busyR.current)return;
+    busyR.current=true;
+    try{
     if(!tw.active||tw.collected===0)return;
     const useServer = hasSupabase && user && !demoMode;
     if(useServer){
@@ -104,6 +120,16 @@ export function TorreMiniGame({G,setG,history,addHistory,user,demoMode}){
     setTw(p=>({...p,active:false}));
     setMsg(`🏆 Sacou ×${tw.collected.toFixed(2)} — +${fmt(prize)}!`);setMT("win");
     addHistory({txt:`🗼 Torre Mini ×${tw.collected.toFixed(2)} +${fmt(prize)}`,type:"win"},{gameId:'torremini',bet:tw.bet,result:prize,won:true});
+  
+    }finally{busyR.current=false;}
+  }
+
+  async function unstick(){
+    if(!user) return;
+    setStuck(false);
+    const { error } = await supabase.rpc('abandon_new_round', { p_user_id: user.id, p_game: 'torremini' });
+    if(error){console.error('[abandon_new_round]',error);setMsg("⚠️ Não consegui cancelar. Tente de novo em alguns segundos.");setMT("loss");return;}
+    setMsg("🔓 Rodada travada cancelada — pode jogar de novo!");setMT("");
   }
 
   return <GameLayout game={GAMES.find(g=>g.id==='torremini')} G={G} setG={setG} history={history}>
@@ -123,6 +149,7 @@ export function TorreMiniGame({G,setG,history,addHistory,user,demoMode}){
       })}
     </div>
     <WinMsg msg={msg} type={mT} prize={lastResult.prize} bet={lastResult.bet}/>
+    {stuck&&<button onClick={unstick} className="btn-press" style={{width:"100%",padding:"9px 0",border:"1px solid rgba(255,200,80,.4)",borderRadius:10,background:"rgba(245,200,66,.1)",color:"#f5c842",fontSize:14,fontWeight:700,cursor:"pointer",marginTop:4}}>🔓 Cancelar rodada travada</button>}
     <div style={{display:"flex",gap:8,alignItems:"flex-end"}}>
       <div style={{flex:1}}><BetRow G={G} setG={setG} onAction={begin} label="SUBIR A TORRE MINI" disabled={tw.active}/></div>
       <button onClick={saque} disabled={!tw.active||tw.collected===0} className="btn-press" style={{padding:"10px 14px",border:"none",borderRadius:10,background:"linear-gradient(135deg,#00e5b0,#00b88a)",color:"#000",fontFamily:"'Cinzel Decorative',serif",fontSize:15,fontWeight:700,cursor:"pointer",opacity:(!tw.active||tw.collected===0)?.4:1,whiteSpace:"nowrap",height:42}}>🏆 SACAR</button>

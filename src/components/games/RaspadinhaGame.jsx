@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { activateAudio, sWin, sLoss, sCard } from "../../game/audio";
 import { rnd, shuffle } from "../../game/rng";
 import { fmt, BETS, GAMES } from "../../game/constants";
@@ -28,10 +28,14 @@ function buildGrid(tier){
 export function RaspadinhaGame({G,setG,history,addHistory,user,demoMode}){
   const[grid,setGrid]=useState(Array(9).fill(null));
   const[busy,setBusy]=useState(false);
+  const busyR=useRef(false);
   const[msg,setMsg]=useState("");const[mT,setMT]=useState("");
   const[lastResult,setLastResult]=useState({prize:0,bet:0});
 
   async function play(){
+    if(busyR.current)return;
+    busyR.current=true;
+    try{
     activateAudio();const bet=BETS[G.betIdx];if(G.saldo<bet){setMsg("❌ Saldo insuficiente!");setMT("loss");return;}
     setBusy(true);setMsg("");setMT("");
     const useServer = hasSupabase && user && !demoMode;
@@ -76,6 +80,8 @@ export function RaspadinhaGame({G,setG,history,addHistory,user,demoMode}){
       if(!useServer) addHistory({txt:`🎫 Raspadinha −${fmt(bet)}`,type:""},{gameId:'raspadinha',bet,result:0,won:false});
     }
     setBusy(false);
+  
+    }finally{busyR.current=false;}
   }
 
   return <GameLayout game={GAMES.find(g=>g.id==='raspadinha')} G={G} setG={setG} history={history}>

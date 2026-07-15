@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { activateAudio, sWin, sLoss, sCard } from "../../game/audio";
 import { rnd } from "../../game/rng";
 import { fmt, BETS, GAMES } from "../../game/constants";
@@ -10,11 +10,15 @@ import { BetRow } from "../shared/BetControls";
 // ═══ SORTE NUMÉRICA — Baixo/Alto: RTP 90.6% | Exato: RTP 85% ═══
 export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
   const[tipo,setTipo]=useState("baixo");const[valor,setValor]=useState(7);const[busy,setBusy]=useState(false);
+  const busyR=useRef(false);
   const[sorteado,setSorteado]=useState(null);
   const[msg,setMsg]=useState("");const[mT,setMT]=useState("");
   const[lastResult,setLastResult]=useState({prize:0,bet:0});
 
   async function play(){
+    if(busyR.current)return;
+    busyR.current=true;
+    try{
     activateAudio();const bet=BETS[G.betIdx];if(G.saldo<bet){setMsg("❌ Saldo insuficiente!");setMT("loss");return;}
     setBusy(true);setMsg("");setMT("");setSorteado(null);sCard();
     const useServer = hasSupabase && user && !demoMode;
@@ -34,7 +38,7 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
       setG(p=>({...p,saldo:p.saldo-bet}));
       num=Math.floor(rnd()*100)+1;
       if(tipo==='baixo'){win=num>=1&&num<=49;mult=1.85;}
-      else if(tipo==='alto'){win=num>=51&&num<=100;mult=1.85;}
+      else if(tipo==='alto'){win=num>=52&&num<=100;mult=1.85;}
       else{win=num===valor;mult=85;}
       if(win) prize=+(bet*mult).toFixed(2);
     }
@@ -60,6 +64,8 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
       if(!useServer) addHistory({txt:`🔢 Número ${num} −${fmt(bet)}`,type:""},{gameId:'numero',bet,result:0,won:false});
     }
     setBusy(false);
+  
+    }finally{busyR.current=false;}
   }
 
   return <GameLayout game={GAMES.find(g=>g.id==='numero')} G={G} setG={setG} history={history}>
@@ -68,7 +74,7 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
         {sorteado ?? "—"}
       </div>
       <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"center"}}>
-        {[{k:"baixo",l:"Baixo (1-49) ×1.85"},{k:"alto",l:"Alto (51-100) ×1.85"},{k:"exato",l:"Exato ×85"}].map(t=>
+        {[{k:"baixo",l:"Baixo (1-49) ×1.85"},{k:"alto",l:"Alto (52-100) ×1.85"},{k:"exato",l:"Exato ×85"}].map(t=>
           <button key={t.k} onClick={()=>setTipo(t.k)} disabled={busy} className="btn-press" style={{padding:"9px 14px",borderRadius:10,border:`2px solid ${tipo===t.k?"#f5c842":"rgba(255,200,80,.2)"}`,background:tipo===t.k?"rgba(245,200,66,.12)":"transparent",color:tipo===t.k?"#f5c842":"#6a7a9a",fontFamily:"'Rajdhani',sans-serif",fontSize:14,fontWeight:700,cursor:busy?"not-allowed":"pointer"}}>{t.l}</button>
         )}
       </div>
@@ -80,7 +86,7 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
             style={{width:70,padding:"7px 10px",borderRadius:8,border:"1px solid rgba(255,200,80,.3)",background:"rgba(12,18,38,.9)",color:"#f5c842",fontSize:16,fontWeight:700,textAlign:"center"}}/>
         </div>
       )}
-      <div style={{fontSize:12.5,color:"#6a7a9a"}}>O número 50 fica com a casa — não conta pra Baixo nem Alto.</div>
+      <div style={{fontSize:12.5,color:"#6a7a9a"}}>Os números 50 e 51 ficam com a casa — não contam pra Baixo nem Alto (49 números pra cada lado, igual).</div>
     </div>
     <WinMsg msg={msg} type={mT} prize={lastResult.prize} bet={lastResult.bet}/>
     <BetRow G={G} setG={setG} onAction={play} label="🔢 SORTEAR" disabled={busy}/>

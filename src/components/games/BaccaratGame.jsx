@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { activateAudio, sWin, sLoss, sCard } from "../../game/audio";
 import { shuffle } from "../../game/rng";
 import { fmt, BETS, GAMES, SU, RK } from "../../game/constants";
@@ -25,6 +25,7 @@ function BCard({c}){
 // confirmadas por simulação: player 45.04% | banker 45.06% | empate 9.91%
 export function BaccaratGame({G,setG,history,addHistory,user,demoMode}){
   const[pick,setPick]=useState("player");const[busy,setBusy]=useState(false);
+  const busyR=useRef(false);
   const[hands,setHands]=useState({player:[],banker:[]});
   const[msg,setMsg]=useState("");const[mT,setMT]=useState("");
   const[lastResult,setLastResult]=useState({prize:0,bet:0});
@@ -32,6 +33,9 @@ export function BaccaratGame({G,setG,history,addHistory,user,demoMode}){
   function makeDeck(){return shuffle(SU.flatMap(s=>RK.map(r=>({rank:r,suit:s}))));}
 
   async function play(){
+    if(busyR.current)return;
+    busyR.current=true;
+    try{
     activateAudio();const bet=BETS[G.betIdx];if(G.saldo<bet){setMsg("❌ Saldo insuficiente!");setMT("loss");return;}
     setBusy(true);setMsg("");setMT("");sCard();setTimeout(sCard,120);setTimeout(sCard,240);setTimeout(sCard,360);
     const useServer = hasSupabase && user && !demoMode;
@@ -83,6 +87,8 @@ export function BaccaratGame({G,setG,history,addHistory,user,demoMode}){
       if(!useServer) addHistory({txt:`♠️ Baccarat ${result} −${fmt(bet)}`,type:""},{gameId:'baccarat',bet,result:0,won:false});
     }
     setBusy(false);
+  
+    }finally{busyR.current=false;}
   }
 
   return <GameLayout game={GAMES.find(g=>g.id==='baccarat')} G={G} setG={setG} history={history}>
