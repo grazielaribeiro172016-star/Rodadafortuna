@@ -25,10 +25,14 @@ export const GAMES=[
   {id:"blackjack", emoji:"♠️",name:"Blackjack Elite",   desc:"Chegue a 21 sem estourar! Ás: 1 ou 11. Blackjack natural = ×2.15! Dobrar disponível.",             rtp:"<95%",tag:"FAVORITO",   color:"#2dde98",glow:"rgba(45,222,152,.4)"},
   {id:"keno",      emoji:"🌌",name:"Keno Galáctico",    desc:"Escolha 5 números de 1 a 40. 20 são sorteados. 3 acertos: ×0.8 | 4: ×1.5 | 5: ×4!",              rtp:"~80%",  tag:"LOTERIA",    color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
   {id:"plinko",    emoji:"🔵",name:"Plinko Neon",       desc:"Solte a bola e deixe a física decidir! 8 fileiras de pinos, 9 buckets — prêmios maiores nas bordas.", rtp:"~96%",  tag:"FÍSICA",     color:"#00e5b0",glow:"rgba(0,229,176,.4)"},
+  {id:"moeda",      emoji:"🪙",name:"Cara ou Coroa",       desc:"Escolha cara ou coroa. Acerto: ×1.82. O jogo mais rápido da casa!",                               rtp:"91%",   tag:"RÁPIDO",     color:"#f5c842",glow:"rgba(245,200,66,.4)",hasStreakBonus:true},
+  {id:"raspadinha", emoji:"🎫",name:"Raspadinha Clássica",  desc:"Raspe os 9 quadrados. 2 iguais paga ×3, 3 iguais paga ×30!",                                      rtp:"90%",   tag:"CLÁSSICO",   color:"#c264ff",glow:"rgba(194,100,255,.4)"},
+  {id:"numero",     emoji:"🔢",name:"Sorte Numérica",      desc:"1 a 100. Baixo/Alto (1-49 ou 51-100): ×1.85. Número exato: ×85! O 50 fica com a casa.",           rtp:"85-91%",tag:"NÚMEROS",    color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
+  {id:"baccarat",   emoji:"♠️",name:"Baccarat Real",       desc:"Jogador vs Banca, quem chega mais perto de 9 ganha. Player/Banker: ×2.02 | Empate: ×9.",         rtp:"89-91%",tag:"CARTAS",     color:"#2dde98",glow:"rgba(45,222,152,.4)"},
+  {id:"torremini",  emoji:"🗼",name:"Torre Mini",          desc:"Versão rápida da Torre — só 4 andares! Suba ou saque, multiplicador cresce a cada passo.",        rtp:"90%",   tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
 ];
 
 export function createState(){return{saldo:INI,betIdx:4,rounds:0,wins:0,losses:0,best:0,totalWon:0,dragons:0,streak:0};}
 
 // Shared by DueloGame and BJGame (both are card games)
 export const SU=["♠","♥","♦","♣"];export const RK=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
-
