@@ -70,7 +70,7 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
 
   return <GameLayout game={GAMES.find(g=>g.id==='numero')} G={G} setG={setG} history={history}>
     <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:14,padding:"16px 0"}}>
-      <div className="cn" style={{fontSize:64,fontWeight:700,color:sorteado?(tipo==='exato'?(sorteado===valor?"#00e5b0":"#eeeaf0"):((tipo==='baixo'&&sorteado<=49)||(tipo==='alto'&&sorteado>=51)?"#00e5b0":"#eeeaf0")):"#6a7a9a"}}>
+      <div className="cn" style={{fontSize:64,fontWeight:700,color:sorteado?(tipo==='exato'?(sorteado===valor?"#00e5b0":"#eeeaf0"):((tipo==='baixo'&&sorteado<=49)||(tipo==='alto'&&sorteado>=52)?"#00e5b0":"#eeeaf0")):"#6a7a9a"}}>
         {sorteado ?? "—"}
       </div>
       <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"center"}}>

@@ -64,11 +64,11 @@ export function MoedaGame({G,setG,history,addHistory,user,demoMode}){
   return <GameLayout game={GAMES.find(g=>g.id==='moeda')} G={G} setG={setG} history={history}>
     <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:16,padding:"20px 0"}}>
       <div style={{width:120,height:120,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:56,background:"radial-gradient(circle at 35% 30%,#fff8dc,#f5c842 60%,#c9971f)",boxShadow:"0 6px 24px rgba(245,200,66,.4)",animation:flip?"coinFlip .3s linear infinite":"none",border:"3px solid #e8a020"}}>
-        {flip?"🪙":shown==="cara"?"👑":shown==="coroa"?"🦅":"🪙"}
+        {flip?"🪙":shown==="cara"?"🦅":shown==="coroa"?"👑":"🪙"}
       </div>
       <style>{"@keyframes coinFlip{0%{transform:scaleX(1)}50%{transform:scaleX(.15)}100%{transform:scaleX(1)}}"}</style>
       <div style={{display:"flex",gap:8}}>
-        {["cara","coroa"].map(p=><button key={p} onClick={()=>setPk(p)} disabled={busy} className="btn-press" style={{padding:"10px 24px",borderRadius:10,border:`2px solid ${pk===p?"#f5c842":"rgba(255,200,80,.2)"}`,background:pk===p?"rgba(245,200,66,.12)":"transparent",color:pk===p?"#f5c842":"#6a7a9a",fontFamily:"'Rajdhani',sans-serif",fontSize:17,fontWeight:700,cursor:busy?"not-allowed":"pointer"}}>{p==="cara"?"👑 Cara":"🦅 Coroa"}</button>)}
+        {["cara","coroa"].map(p=><button key={p} onClick={()=>setPk(p)} disabled={busy} className="btn-press" style={{padding:"10px 24px",borderRadius:10,border:`2px solid ${pk===p?"#f5c842":"rgba(255,200,80,.2)"}`,background:pk===p?"rgba(245,200,66,.12)":"transparent",color:pk===p?"#f5c842":"#6a7a9a",fontFamily:"'Rajdhani',sans-serif",fontSize:17,fontWeight:700,cursor:busy?"not-allowed":"pointer"}}>{p==="cara"?"🦅 Cara":"👑 Coroa"}</button>)}
       </div>
       {G.streak>0 && <div style={{fontSize:14,color:"#f5c842"}}>🔥 Sequência: {G.streak}{streakBonus?" — bônus ativo!":""}</div>}
     </div>
