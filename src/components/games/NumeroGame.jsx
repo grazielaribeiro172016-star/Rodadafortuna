@@ -36,9 +36,9 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
       mult=bet>0?(prize/bet):0;
     }else{
       setG(p=>({...p,saldo:p.saldo-bet}));
-      num=Math.floor(rnd()*100)+1;
+      num=Math.floor(rnd()*99)+1;
       if(tipo==='baixo'){win=num>=1&&num<=49;mult=1.85;}
-      else if(tipo==='alto'){win=num>=52&&num<=100;mult=1.85;}
+      else if(tipo==='alto'){win=num>=51&&num<=99;mult=1.85;}
       else{win=num===valor;mult=85;}
       if(win) prize=+(bet*mult).toFixed(2);
     }
@@ -46,7 +46,7 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
     // pequena contagem regressiva visual antes de revelar
     for(let i=0;i<6;i++){
       await new Promise(r=>setTimeout(r,80));
-      setSorteado(Math.floor(rnd()*100)+1);
+      setSorteado(Math.floor(rnd()*99)+1);
     }
     await new Promise(r=>setTimeout(r,150));
     setSorteado(num);
@@ -70,23 +70,23 @@ export function NumeroGame({G,setG,history,addHistory,user,demoMode}){
 
   return <GameLayout game={GAMES.find(g=>g.id==='numero')} G={G} setG={setG} history={history}>
     <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:14,padding:"16px 0"}}>
-      <div className="cn" style={{fontSize:64,fontWeight:700,color:sorteado?(tipo==='exato'?(sorteado===valor?"#00e5b0":"#eeeaf0"):((tipo==='baixo'&&sorteado<=49)||(tipo==='alto'&&sorteado>=52)?"#00e5b0":"#eeeaf0")):"#6a7a9a"}}>
+      <div className="cn" style={{fontSize:64,fontWeight:700,color:sorteado?(tipo==='exato'?(sorteado===valor?"#00e5b0":"#eeeaf0"):((tipo==='baixo'&&sorteado<=49)||(tipo==='alto'&&sorteado>=51)?"#00e5b0":"#eeeaf0")):"#6a7a9a"}}>
         {sorteado ?? "—"}
       </div>
       <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"center"}}>
-        {[{k:"baixo",l:"Baixo (1-49) ×1.85"},{k:"alto",l:"Alto (52-100) ×1.85"},{k:"exato",l:"Exato ×85"}].map(t=>
+        {[{k:"baixo",l:"Baixo (1-49) ×1.85"},{k:"alto",l:"Alto (51-99) ×1.85"},{k:"exato",l:"Exato ×85"}].map(t=>
           <button key={t.k} onClick={()=>setTipo(t.k)} disabled={busy} className="btn-press" style={{padding:"9px 14px",borderRadius:10,border:`2px solid ${tipo===t.k?"#f5c842":"rgba(255,200,80,.2)"}`,background:tipo===t.k?"rgba(245,200,66,.12)":"transparent",color:tipo===t.k?"#f5c842":"#6a7a9a",fontFamily:"'Rajdhani',sans-serif",fontSize:14,fontWeight:700,cursor:busy?"not-allowed":"pointer"}}>{t.l}</button>
         )}
       </div>
       {tipo==='exato' && (
         <div style={{display:"flex",alignItems:"center",gap:8}}>
           <span style={{fontSize:14,color:"#6a7a9a"}}>Seu número:</span>
-          <input type="number" min={1} max={100} value={valor} disabled={busy}
-            onChange={e=>setValor(Math.min(100,Math.max(1,Number(e.target.value)||1)))}
+          <input type="number" min={1} max={99} value={valor} disabled={busy}
+            onChange={e=>setValor(Math.min(99,Math.max(1,Number(e.target.value)||1)))}
             style={{width:70,padding:"7px 10px",borderRadius:8,border:"1px solid rgba(255,200,80,.3)",background:"rgba(12,18,38,.9)",color:"#f5c842",fontSize:16,fontWeight:700,textAlign:"center"}}/>
         </div>
       )}
-      <div style={{fontSize:12.5,color:"#6a7a9a"}}>Os números 50 e 51 ficam com a casa — não contam pra Baixo nem Alto (49 números pra cada lado, igual).</div>
+      <div style={{fontSize:12.5,color:"#6a7a9a"}}>O número 50 fica com a casa — não conta pra Baixo nem Alto (49 números pra cada lado, igual).</div>
     </div>
     <WinMsg msg={msg} type={mT} prize={lastResult.prize} bet={lastResult.bet}/>
     <BetRow G={G} setG={setG} onAction={play} label="🔢 SORTEAR" disabled={busy}/>
