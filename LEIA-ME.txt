@@ -1,0 +1,37 @@
+COMO INSTALAR O LOGIN POR TELEFONE
+════════════════════════════════════
+
+Tudo pronto — os arquivos abaixo já vêm com as edições aplicadas,
+incluindo o App.jsx (que antes precisaria de edição manual). É só
+substituir no GitHub, na mesma estrutura de pastas do zip:
+
+1) Rode supabase_login_telefone.sql inteiro no SQL Editor do Supabase.
+   (Pode rodar já, mesmo antes de subir o resto — só cria colunas
+   novas e substitui o handle_new_user.)
+
+2) Substitua estes 3 arquivos no GitHub (sobrescreva os existentes):
+   - src/App.jsx
+   - src/hooks/useAuth.js
+   - src/components/auth/AuthModal.jsx
+
+3) Adicione o arquivo novo:
+   - api/phone-signup.js
+
+4) Confirme que a variável de ambiente SUPABASE_SERVICE_ROLE_KEY já
+   está configurada no Vercel (ela já deveria estar, porque
+   api/create-pix.js e api/webhook.js já usam a mesma chave).
+
+5) Salva, espera o Vercel rebuildar, testa cadastro e login por telefone.
+
+Nenhuma edição manual sobrando — os arquivos já estão prontos pra
+colar e substituir.
+
+O QUE MUDOU EM RELAÇÃO AO QUE VOCÊ TINHA:
+- Cadastro por email agora entra direto (sem tela de "verifique seu
+  email"), já que você desligou a confirmação por email no Supabase.
+- Cadastro por telefone usa uma conta "sombra" (tel<numero>@long777.phone)
+  criada já confirmada via API administrativa — zero custo de SMS.
+- Recuperação de senha por telefone ainda não está disponível de forma
+  automática (mostra aviso pedindo contato com suporte). Se quiser um
+  fluxo de recuperação usando o email opcional cadastrado, é um projeto
+  à parte (precisa de um serviço de envio de email tipo Resend/SendGrid).

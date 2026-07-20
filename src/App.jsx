@@ -61,7 +61,7 @@ export default function App(){
   const[authInitialTab,setAuthInitialTab]=useState('login');
 
   // ── Auth hook ──────────────────────────────────────────────
-  const { user, profile, loading, authError, setAuthError, signIn, signUp, signOut, resetPassword, fetchProfile } = useAuth();
+  const { user, profile, loading, authError, setAuthError, signIn, signInPhone, signUp, signUpPhone, signOut, resetPassword, fetchProfile } = useAuth();
 
   // ── Fase 3: sync hook ──────────────────────────────────────
   const { syncRound, fetchHistory, fetchTransactions, fetchGameStats, fetchPendingWithdrawals, cancelWithdrawal, claimDailyReward, fetchTopWins } = useGameSync(user);
@@ -272,7 +272,9 @@ export default function App(){
         authError={authError}
         setAuthError={setAuthError}
         signIn={signIn}
+        signInPhone={signInPhone}
         signUp={signUp}
+        signUpPhone={signUpPhone}
         resetPassword={resetPassword}
         initialTab={authInitialTab}
         refCode={refCode}
