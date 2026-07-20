@@ -58,7 +58,7 @@ export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,on
       <div style={{textAlign:"left",background:"linear-gradient(135deg,rgba(194,100,255,.08),rgba(194,100,255,.03))",border:"1px solid rgba(194,100,255,.25)",borderRadius:12,padding:"14px 16px",marginBottom:16}}>
         <div style={{fontSize:15,color:"#c264ff",fontWeight:700,marginBottom:4}}>🎁 Convide um amigo</div>
         <div style={{fontSize:13,color:"#9aa6ba",marginBottom:10,lineHeight:1.4}}>
-          Cada amigo que entrar com seu link e jogar a primeira rodada dá bônus de saldo demo pra vocês dois.
+          Cada amigo que entrar com seu link ganha bônus de saldo demo na primeira rodada. E não para aí — toda vez que ele depositar de verdade, uma comissão cai direto no seu saldo real. 💰
         </div>
         <div style={{display:"flex",gap:8,marginBottom:refStats?10:0}}>
           <div style={{flex:1,background:"rgba(0,0,0,.3)",border:"1px solid rgba(255,255,255,.1)",borderRadius:8,padding:"9px 10px",fontSize:13,color:"#c8d4e6",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{referralLink}</div>
