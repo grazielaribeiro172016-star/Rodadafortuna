@@ -29,12 +29,9 @@ const btn = (bg, tc = '#000') => ({
   transition: 'opacity .2s',
 })
 
-export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, signInPhone, signUp, signUpPhone, resetPassword, initialTab = 'login', refCode = null }) {
+export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, signUp, resetPassword, initialTab = 'login', refCode = null }) {
   const [tab, setTab] = useState(initialTab) // login | cadastro | reset
-  const [method, setMethod] = useState('email') // email | telefone
   const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [recoveryEmail, setRecoveryEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [loading, setLoading] = useState(false)
@@ -43,7 +40,7 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
   async function handleLogin(e) {
     e.preventDefault()
     setLoading(true); setSuccessMsg('')
-    const ok = method === 'telefone' ? await signInPhone(phone, password) : await signIn(email, password)
+    const ok = await signIn(email, password)
     if (ok) onAuth()
     setLoading(false)
   }
@@ -53,19 +50,11 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
     if (username.length < 3) { setAuthError('Nome de usuário precisa ter ao menos 3 caracteres.'); return }
     if (password.length < 6) { setAuthError('A senha precisa ter ao menos 6 caracteres.'); return }
     setLoading(true); setSuccessMsg('')
-
-    if (method === 'telefone') {
-      const ok = await signUpPhone(phone, password, username, refCode, recoveryEmail || null)
-      if (ok) {
-        try { sessionStorage.removeItem('ftg_ref_code') } catch {}
-        onAuth() // conta já nasce confirmada e logada — entra direto
-      }
-    } else {
-      const ok = await signUp(email, password, username, refCode)
-      if (ok) {
-        try { sessionStorage.removeItem('ftg_ref_code') } catch {}
-        onAuth() // confirmação de email desligada — Supabase já devolve sessão ativa, entra direto
-      }
+    const ok = await signUp(email, password, username, refCode)
+    if (ok) {
+      try { sessionStorage.removeItem('ftg_ref_code') } catch {}
+      setSuccessMsg('✅ Conta criada! Verifique seu email para confirmar.')
+      setTab('login')
     }
     setLoading(false)
   }
@@ -79,7 +68,6 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
   }
 
   function changeTab(t) { setTab(t); setAuthError(null); setSuccessMsg('') }
-  function changeMethod(m) { setMethod(m); setAuthError(null) }
 
   return (
     <div style={{
@@ -109,7 +97,7 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
 
         {/* Tabs */}
         {tab !== 'reset' && (
-          <div style={{ display: 'flex', gap: 6, marginBottom: 12, background: 'rgba(5,7,15,.6)', borderRadius: 10, padding: 4 }}>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 24, background: 'rgba(5,7,15,.6)', borderRadius: 10, padding: 4 }}>
             {['login', 'cadastro'].map(t => (
               <button key={t} onClick={() => changeTab(t)} style={{
                 flex: 1, padding: '8px 0', border: 'none', borderRadius: 8,
@@ -120,24 +108,6 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
                 transition: 'all .2s',
               }}>
                 {t === 'login' ? 'Entrar' : 'Cadastrar'}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Método: email ou telefone */}
-        {tab !== 'reset' && (
-          <div style={{ display: 'flex', gap: 6, marginBottom: 24 }}>
-            {[{ k: 'email', l: '📧 Email' }, { k: 'telefone', l: '📱 Telefone' }].map(m => (
-              <button key={m.k} type="button" onClick={() => changeMethod(m.k)} style={{
-                flex: 1, padding: '7px 0', borderRadius: 8,
-                border: `1px solid ${method === m.k ? 'rgba(245,200,66,.5)' : 'rgba(255,200,80,.15)'}`,
-                background: method === m.k ? 'rgba(245,200,66,.08)' : 'transparent',
-                color: method === m.k ? '#f5c842' : '#6a7a9a',
-                fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700,
-                cursor: 'pointer',
-              }}>
-                {m.l}
               </button>
             ))}
           </div>
@@ -160,26 +130,18 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
         {/* ── LOGIN ── */}
         {tab === 'login' && (
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {method === 'telefone' ? (
-              <input style={inp} type="tel" placeholder="Telefone (DDD + número)" value={phone} onChange={e => setPhone(e.target.value.replace(/[^\d]/g, ''))} required
-                onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
-                onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
-            ) : (
-              <input style={inp} type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
-                onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
-                onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
-            )}
+            <input style={inp} type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
+              onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
+              onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
             <input style={inp} type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} required
               onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
               onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
             <button type="submit" disabled={loading} style={{ ...btn('linear-gradient(135deg,#f5c842,#e8a020)'), opacity: loading ? .5 : 1 }}>
               {loading ? 'ENTRANDO...' : 'ENTRAR'}
             </button>
-            {method === 'email' && (
-              <button type="button" onClick={() => changeTab('reset')} style={{ background: 'none', border: 'none', color: '#6a7a9a', fontSize: 16, cursor: 'pointer', textDecoration: 'underline', fontFamily: "'Rajdhani',sans-serif" }}>
-                Esqueci minha senha
-              </button>
-            )}
+            <button type="button" onClick={() => changeTab('reset')} style={{ background: 'none', border: 'none', color: '#6a7a9a', fontSize: 16, cursor: 'pointer', textDecoration: 'underline', fontFamily: "'Rajdhani',sans-serif" }}>
+              Esqueci minha senha
+            </button>
           </form>
         )}
 
@@ -194,25 +156,9 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
             <input style={inp} type="text" placeholder="Nome de usuário (min. 3 caracteres)" value={username} onChange={e => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))} required
               onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
               onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
-
-            {method === 'telefone' ? (
-              <>
-                <input style={inp} type="tel" placeholder="Telefone (DDD + número)" value={phone} onChange={e => setPhone(e.target.value.replace(/[^\d]/g, ''))} required
-                  onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
-                  onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
-                <input style={inp} type="email" placeholder="Email para recuperar senha (opcional)" value={recoveryEmail} onChange={e => setRecoveryEmail(e.target.value)}
-                  onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
-                  onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
-                <div style={{ fontSize: 13.5, color: '#6a7a9a' }}>
-                  Sem e-mail cadastrado, a recuperação de senha só pode ser feita entrando em contato com o suporte.
-                </div>
-              </>
-            ) : (
-              <input style={inp} type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
-                onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
-                onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
-            )}
-
+            <input style={inp} type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
+              onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
+              onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
             <input style={inp} type="password" placeholder="Senha (min. 6 caracteres)" value={password} onChange={e => setPassword(e.target.value)} required
               onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
               onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
@@ -253,3 +199,4 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
     </div>
   )
 }
+

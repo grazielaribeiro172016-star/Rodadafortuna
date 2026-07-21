@@ -5,7 +5,7 @@
 ### Fase 3 — Migração localStorage → Supabase
 - ✅ **Zero localStorage** — o estado do jogo vive só em memória React
 - ✅ **`useGameSync` hook** — sincroniza cada rodada com Supabase via RPC segura
-- ✅ **`syncRound`** — chamado após cada jogada em todos os 10 jogos (23 pontos de sync)
+- ✅ **`syncRound`** — chamado após cada jogada em todos os 15 jogos (23 pontos de sync)
 - ✅ **`syncProfile`** — debounce de 1.5s para atualizações rápidas (ex: Keno)
 - ✅ **Restauração automática** — ao logar, saldo e stats carregam do Supabase
 - ✅ **Modo guest** — joga sem conta, estado só em memória (sem localStorage)

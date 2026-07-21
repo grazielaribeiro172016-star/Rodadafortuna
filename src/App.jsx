@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════
 //  FORTUNA DO TIGRE — FASE 2 (Supabase Auth integrado)
-//  Fase 1: Home, 10 jogos, RTPs corrigidos
+//  Fase 1: Home, 15 jogos, RTPs corrigidos
 //  Fase 2: Login, Cadastro, Logout, Recuperação de senha, perfil na nuvem
 // ═══════════════════════════════════════════════════════════════
 import { useState, useEffect, useRef } from "react";
@@ -61,7 +61,7 @@ export default function App(){
   const[authInitialTab,setAuthInitialTab]=useState('login');
 
   // ── Auth hook ──────────────────────────────────────────────
-  const { user, profile, loading, authError, setAuthError, signIn, signInPhone, signUp, signUpPhone, signOut, resetPassword, fetchProfile } = useAuth();
+  const { user, profile, loading, authError, setAuthError, signIn, signUp, signOut, resetPassword, fetchProfile } = useAuth();
 
   // ── Fase 3: sync hook ──────────────────────────────────────
   const { syncRound, fetchHistory, fetchTransactions, fetchGameStats, fetchPendingWithdrawals, cancelWithdrawal, claimDailyReward, fetchTopWins } = useGameSync(user);
@@ -142,7 +142,7 @@ export default function App(){
     if (!inLocalDemo && syncOpts && user) {
       syncRound({ ...syncOpts, G, setG });
     }
-    // (Não existe mais um fallback de "sync sem syncOpts": os 10 jogos sempre passam
+    // (Não existe mais um fallback de "sync sem syncOpts": os 15 jogos sempre passam
     // syncOpts, e a única rota alternativa era um update direto na tabela profiles —
     // removida por ser uma brecha de segurança. Ver supabase_lock_profile_writes.sql.)
     // Fase 9: 1ª rodada de quem chegou por indicação credita o bônus demo pros
@@ -255,7 +255,7 @@ export default function App(){
     <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",backgroundImage:"linear-gradient(rgba(245,200,66,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,200,66,.03) 1px,transparent 1px)",backgroundSize:"60px 60px"}}/>
     <Particles/>
     <div style={{position:"relative",zIndex:1,minHeight:"100vh"}}>
-      <Header G={activeG} setG={activeSetG} muted={muted} toggleMute={toggleMute} route={route} onNav={nav} user={user} profile={profile} onLogin={()=>{ setAuthInitialTab('login'); setShowAuth(true); }} onLogout={handleSignOut} guestMode={guestMode} demoMode={demoMode} onToggleDemo={toggleDemoMode} sessionMinutes={sessionMinutes}/>
+      <Header G={activeG} setG={activeSetG} muted={muted} toggleMute={toggleMute} route={route} onNav={nav} user={user} profile={profile} onLogin={()=>{ setAuthInitialTab('login'); setShowAuth(true); }} onLogout={handleSignOut} guestMode={guestMode} demoMode={demoMode} onToggleDemo={toggleDemoMode} sessionMinutes={sessionMinutes} onDeposit={()=>setShowWallet(true)}/>
       <div style={{padding:"0 16px"}}>
         <Hint show={streakHint.visible} onClose={streakHint.dismiss} emoji="🔥">
           <strong>Bônus de streak ativado!</strong> A partir de 5 vitórias seguidas, seus prêmios ganham um bônus extra automático — quanto maior a sequência, maior o bônus. Ele zera se você perder uma rodada.
@@ -272,9 +272,7 @@ export default function App(){
         authError={authError}
         setAuthError={setAuthError}
         signIn={signIn}
-        signInPhone={signInPhone}
         signUp={signUp}
-        signUpPhone={signUpPhone}
         resetPassword={resetPassword}
         initialTab={authInitialTab}
         refCode={refCode}

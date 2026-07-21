@@ -12,7 +12,7 @@ function isTodayBR(dateStr) {
 
 // Nível 3: escolhe 2 jogos ao acaso pra destacar — rotação simples, sem
 // dado real de comportamento (não é "mais jogado" nem histórico pessoal),
-// só pra dar hierarquia visual em vez do grid uniforme de 10 jogos.
+// só pra dar hierarquia visual em vez do grid uniforme de 15 jogos.
 function pickFeatured() {
   const shuffled = [...GAMES].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, 2);
@@ -77,8 +77,8 @@ export function HomePage({ G, onNav, user, profile, onClaimDaily, fetchTopWins }
         <div style={{ fontSize: 15, letterSpacing: 4, textTransform: "uppercase", color: "#00e5b0", marginBottom: 12, fontWeight: 600 }}>
           BEM-VINDO AO LONG777
         </div>
-        <div style={{ fontSize: 44, fontWeight: 900, fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif", letterSpacing: -1, background: "linear-gradient(90deg,#f5c842,#fff8dc,#f5c842)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1.15, marginBottom: 12 }}>
-          O dragão desperta.
+        <div className="cd" style={{ fontSize: 39, fontWeight: 900, background: "linear-gradient(90deg,#f5c842,#fff8dc,#f5c842)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1.2, marginBottom: 12 }}>
+          Bora buscar a sorte grande?
         </div>
         <div style={{ fontSize: 17, color: "#6a7a9a", maxWidth: 440, margin: "0 auto 20px" }}>
           15 jogos exclusivos. Escolha sua mesa e descubra se hoje é o seu grande dia.
