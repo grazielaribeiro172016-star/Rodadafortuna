@@ -1,7 +1,7 @@
 import { fmt, GAMES } from "../../game/constants";
 
 // ═══ LAYOUT SHELL ═════════════════════════════════════════════
-export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin,onLogout,guestMode,demoMode=false,onToggleDemo,sessionMinutes=0}){
+export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin,onLogout,guestMode,demoMode=false,onToggleDemo,sessionMinutes=0,onDeposit}){
   const isGame=route.startsWith("/jogo/");const gameId=isGame?route.replace("/jogo/",""):null;const cg=gameId?GAMES.find(g=>g.id===gameId):null;
   return <header style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 18px",background:"rgba(8,12,26,.95)",borderBottom:"1px solid rgba(255,200,80,.15)",backdropFilter:"blur(20px)",position:"sticky",top:0,zIndex:100,flexWrap:"wrap",gap:8}}>
     <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -31,6 +31,15 @@ export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin
         </button>
       )}
       <div className="glow-pulse-sm" style={{background:"linear-gradient(135deg,rgba(245,200,66,.18),rgba(232,160,32,.1))",border:"1.5px solid rgba(245,200,66,.4)",padding:"7px 16px",borderRadius:10,fontSize:18,fontWeight:800,color:"#f5c842",boxShadow:"0 2px 12px rgba(245,200,66,.15)"}}><span style={{color:"#8a96aa",fontWeight:500,marginRight:4,fontSize:14}}>Saldo</span>{fmt(G.saldo)}</div>
+      {user && !demoMode && onDeposit && (
+        <button
+          onClick={onDeposit}
+          className="btn-press"
+          style={{background:"linear-gradient(135deg,#00e5b0,#00b88a)",border:"none",color:"#00160f",fontSize:14,fontWeight:800,padding:"8px 16px",borderRadius:10,cursor:"pointer",whiteSpace:"nowrap",boxShadow:"0 2px 12px rgba(0,229,176,.35)",display:"flex",alignItems:"center",gap:6}}
+        >
+          💰 Depositar
+        </button>
+      )}
       <div className={G.streak>=5?"chip-active":""} style={{background:G.streak>=20?"linear-gradient(135deg,rgba(245,200,66,.22),rgba(255,61,90,.12))":G.streak>=10?"rgba(245,200,66,.12)":G.streak>=5?"rgba(0,229,176,.1)":"rgba(0,229,176,.06)",border:`1.5px solid ${G.streak>=10?"rgba(245,200,66,.45)":"rgba(0,229,176,.25)"}`,padding:"7px 14px",borderRadius:10,fontSize:16,fontWeight:800,color:G.streak>=10?"#f5c842":"#00e5b0",display:"flex",flexDirection:"column",alignItems:"center",lineHeight:1.1}}>
         <span>🔥 {G.streak}</span>
         {G.streak>=5 && <span style={{fontSize:10,fontWeight:700,letterSpacing:.5}}>+{G.streak>=20?35:G.streak>=10?20:10}% BÔNUS</span>}
@@ -43,3 +52,4 @@ export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin
     </div>
   </header>;
 }
+
