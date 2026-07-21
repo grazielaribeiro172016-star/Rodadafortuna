@@ -8,7 +8,7 @@ export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin
       {isGame&&<button onClick={()=>onNav("/")} style={{background:"rgba(255,200,80,.08)",border:"1px solid rgba(255,200,80,.2)",color:"#f5c842",padding:"5px 10px",borderRadius:8,cursor:"pointer",fontSize:16,fontWeight:700}}>← Voltar</button>}
       <div style={{display:"flex",alignItems:"center",gap:10}}>
         <div className="lglow" style={{width:38,height:38,background:"linear-gradient(135deg,#f5c842,#e8a020)",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26}}>⭐</div>
-        <div><div className="cd" style={{fontSize:18,fontWeight:700,background:"linear-gradient(90deg,#f5c842,#fff8dc,#f5c842)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:1}}>Long777 龙</div><div style={{fontSize:12,letterSpacing:3,color:"#00e5b0",textTransform:"uppercase"}}>{cg?cg.name:"10 Jogos Exclusivos"}</div></div>
+        <div><div className="cd" style={{fontSize:18,fontWeight:700,background:"linear-gradient(90deg,#f5c842,#fff8dc,#f5c842)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:1}}>Long777 龙</div><div style={{fontSize:12,letterSpacing:3,color:"#00e5b0",textTransform:"uppercase"}}>{cg?cg.name:"15 Jogos Exclusivos"}</div></div>
       </div>
       {((guestMode && !user) || (user && demoMode)) && (
         <div title="Saldo fictício — RTP idêntico ao modo real" style={{background:"rgba(194,100,255,.12)",border:"1.5px solid rgba(194,100,255,.4)",color:"#c264ff",fontSize:12,fontWeight:800,letterSpacing:1.5,padding:"5px 10px",borderRadius:8,textTransform:"uppercase",whiteSpace:"nowrap"}}>🎮 Modo Demo</div>
@@ -52,4 +52,3 @@ export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin
     </div>
   </header>;
 }
-
