@@ -255,7 +255,7 @@ export default function App(){
     <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",backgroundImage:"linear-gradient(rgba(245,200,66,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,200,66,.03) 1px,transparent 1px)",backgroundSize:"60px 60px"}}/>
     <Particles/>
     <div style={{position:"relative",zIndex:1,minHeight:"100vh"}}>
-      <Header G={activeG} setG={activeSetG} muted={muted} toggleMute={toggleMute} route={route} onNav={nav} user={user} profile={profile} onLogin={()=>{ setAuthInitialTab('login'); setShowAuth(true); }} onLogout={handleSignOut} guestMode={guestMode} demoMode={demoMode} onToggleDemo={toggleDemoMode} sessionMinutes={sessionMinutes}/>
+      <Header G={activeG} setG={activeSetG} muted={muted} toggleMute={toggleMute} route={route} onNav={nav} user={user} profile={profile} onLogin={()=>{ setAuthInitialTab('login'); setShowAuth(true); }} onLogout={handleSignOut} guestMode={guestMode} demoMode={demoMode} onToggleDemo={toggleDemoMode} sessionMinutes={sessionMinutes} onDeposit={()=>setShowWallet(true)}/>
       <div style={{padding:"0 16px"}}>
         <Hint show={streakHint.visible} onClose={streakHint.dismiss} emoji="🔥">
           <strong>Bônus de streak ativado!</strong> A partir de 5 vitórias seguidas, seus prêmios ganham um bônus extra automático — quanto maior a sequência, maior o bônus. Ele zera se você perder uma rodada.
