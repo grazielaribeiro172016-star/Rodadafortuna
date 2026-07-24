@@ -41,8 +41,10 @@ import { RaspadinhaGame } from "./components/games/RaspadinhaGame";
 import { NumeroGame } from "./components/games/NumeroGame";
 import { BaccaratGame } from "./components/games/BaccaratGame";
 import { TorreMiniGame } from "./components/games/TorreMiniGame";
+import { TurfeGame } from "./components/games/TurfeGame";
+import { BauGame } from "./components/games/BauGame";
 
-const GC={slot:SlotGame,crash:CrashGame,mina:MinaGame,roleta:RoletaGame,dados:DadosGame,duelo:DueloGame,torre:TorreGame,blackjack:BJGame,keno:KenoGame,plinko:PlinkoGame,moeda:MoedaGame,raspadinha:RaspadinhaGame,numero:NumeroGame,baccarat:BaccaratGame,torremini:TorreMiniGame};
+const GC={slot:SlotGame,crash:CrashGame,mina:MinaGame,roleta:RoletaGame,dados:DadosGame,duelo:DueloGame,torre:TorreGame,blackjack:BJGame,keno:KenoGame,plinko:PlinkoGame,moeda:MoedaGame,raspadinha:RaspadinhaGame,numero:NumeroGame,baccarat:BaccaratGame,torremini:TorreMiniGame,turfe:TurfeGame,bau:BauGame};
 
 export default function App(){
   const[route,setRoute]=useState(()=>window.location.pathname || "/");

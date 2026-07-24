@@ -19,6 +19,8 @@ export const GAMES=[
   {id:"numero",     emoji:"🔢",name:"Sorte Numérica",      desc:"1 a 100. Baixo/Alto (1-49 ou 52-100): ×1.85. Número exato: ×85! 50 e 51 ficam com a casa.",       rtp:"85-91%",tag:"NÚMEROS",    color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
   {id:"baccarat",   emoji:"♠️",name:"Baccarat Real",       desc:"Jogador vs Banca, quem chega mais perto de 9 ganha. Player/Banker: ×2.02 | Empate: ×9.",         rtp:"89-91%",tag:"CARTAS",     color:"#2dde98",glow:"rgba(45,222,152,.4)"},
   {id:"torremini",  emoji:"🗼",name:"Torre Mini",          desc:"Versão rápida da Torre — só 4 andares! Suba ou saque, multiplicador cresce a cada passo.",        rtp:"90%",   tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
+  {id:"turfe",      emoji:"🐎",name:"Turfe Relâmpago",     desc:"Escolha seu cavalo. Favorito paga ×2.66, zebra paga ×11.63! Corrida decidida na hora da aposta.", rtp:"~93%",  tag:"CORRIDA",    color:"#ff8c42",glow:"rgba(255,140,66,.4)"},
+  {id:"bau",        emoji:"🎁",name:"Baú Misterioso",      desc:"Escolha 1 de 9 baús e revele o multiplicador na hora. Rápido, direto, sem enrolação.",            rtp:"91%",   tag:"RÁPIDO",     color:"#c264ff",glow:"rgba(194,100,255,.4)"},
 ];
 
 // Jogos visíveis na vitrine (lobby, grid "todos os jogos", contagem no header).
