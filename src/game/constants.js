@@ -21,6 +21,10 @@ export const GAMES=[
   {id:"torremini",  emoji:"🗼",name:"Torre Mini",          desc:"Versão rápida da Torre — só 4 andares! Suba ou saque, multiplicador cresce a cada passo.",        rtp:"90%",   tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
   {id:"turfe",      emoji:"🐎",name:"Turfe Relâmpago",     desc:"Escolha seu cavalo. Favorito paga ×2.66, zebra paga ×11.63! Corrida decidida na hora da aposta.", rtp:"~93%",  tag:"CORRIDA",    color:"#ff8c42",glow:"rgba(255,140,66,.4)"},
   {id:"bau",        emoji:"🎁",name:"Baú Misterioso",      desc:"Escolha 1 de 9 baús e revele o multiplicador na hora. Rápido, direto, sem enrolação.",            rtp:"91%",   tag:"RÁPIDO",     color:"#c264ff",glow:"rgba(194,100,255,.4)"},
+  {id:"sobedesce",  emoji:"🎴",name:"Sobe ou Desce",       desc:"A próxima carta é maior ou menor? Acerte seguido pra multiplicar, saque quando quiser.",         rtp:"~92%",  tag:"ESTRATÉGIA", color:"#00e5b0",glow:"rgba(0,229,176,.4)"},
+  {id:"pesca",      emoji:"🎣",name:"Pesca da Fortuna",    desc:"Lance a linha e veja o que fisga. De uma bota velha ao peixe dourado de ×20!",                    rtp:"~91%",  tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
+  {id:"roda",       emoji:"🎡",name:"Roda da Sorte",       desc:"Gire a roda e veja onde ela para. Do vazio ao setor dourado de ×25!",                            rtp:"~92%",  tag:"RÁPIDO",     color:"#f5c842",glow:"rgba(245,200,66,.4)"},
+  {id:"bingo",      emoji:"🔴",name:"Bingo Relâmpago",     desc:"Escolha 5 números, 20 são sorteados. 3+ acertos pagam — cartela cheia paga ×40!",                 rtp:"~90%",  tag:"AO VIVO",    color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
 ];
 
 // Jogos visíveis na vitrine (lobby, grid "todos os jogos", contagem no header).
