@@ -12,7 +12,7 @@ export function BigWinConversionModal({ show, prize, alreadyLoggedIn, onCreateAc
           Ganhou de verdade!
         </div>
         <div style={{ fontSize: 14.5, color: "#c8d4e6", lineHeight: 1.5, marginBottom: 14 }}>
-          Você acabou de ganhar <strong style={{ color: "#00e5b0" }}>{fmt(prize)}</strong> no modo demonstração.
+          Você acabou de ganhar <strong style={{ color: "#00e5b0" }}>{fmt(prize)}</strong> no modo teste.
           {alreadyLoggedIn
             ? " Quer voltar a jogar com seu saldo real?"
             : " Crie uma conta gratuita pra jogar com saldo de verdade."}

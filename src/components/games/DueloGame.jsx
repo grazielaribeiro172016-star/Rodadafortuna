@@ -38,6 +38,7 @@ export function DueloGame({G,setG,history,addHistory,user,demoMode}){
       draw=res.is_draw; win=res.won; prize=Number(res.prize); newBalance=Number(res.new_balance);
       setBC(base);setCC(null);
     }else{
+      setG(p=>({...p,saldo:p.saldo-bet})); // BUG CORRIGIDO: aposta nunca era descontada no modo demo/visitante
       base=rCard();setBC(base);setCC(null);
     }
 

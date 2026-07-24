@@ -95,19 +95,47 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* ── CTA PRINCIPAL: experimentar agora, sem conta ─────────────────
+            É a chamada mais forte da tela — grande, com brilho, no topo.
+            Login/cadastro (abaixo) ficam com tratamento propositalmente
+            mais discreto, como opção secundária pra quem já decidiu voltar. */}
         {tab !== 'reset' && (
-          <div style={{ display: 'flex', gap: 6, marginBottom: 24, background: 'rgba(5,7,15,.6)', borderRadius: 10, padding: 4 }}>
+          <>
+            <button onClick={onGuest} className="btn-press" style={{
+              width: '100%', padding: '18px 16px', border: 'none', borderRadius: 14,
+              background: 'linear-gradient(135deg,#f5c842,#ffdd7a,#f5c842)',
+              backgroundSize: '200% auto',
+              color: '#000', fontFamily: "'Cinzel Decorative',serif", fontSize: 18, fontWeight: 900,
+              cursor: 'pointer', letterSpacing: .5, marginBottom: 8,
+              boxShadow: '0 0 30px rgba(245,200,66,.5), 0 4px 20px rgba(0,0,0,.3)',
+            }}>
+              🎲 EXPERIMENTAR GRÁTIS AGORA
+            </button>
+            <div style={{ textAlign: 'center', fontSize: 14, color: '#6a7a9a', marginBottom: 22 }}>
+              Sem cadastro, sem cartão — pode ser seu dia de sorte de ganhar o Dragão Sagrado 🐉
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,.08)' }} />
+              <div style={{ fontSize: 12, color: '#4a5468', letterSpacing: 1, textTransform: 'uppercase' }}>ou</div>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,.08)' }} />
+            </div>
+          </>
+        )}
+
+        {/* Tabs — discreto de propósito, é a opção secundária agora */}
+        {tab !== 'reset' && (
+          <div style={{ display: 'flex', gap: 6, marginBottom: 20, background: 'rgba(5,7,15,.4)', borderRadius: 10, padding: 3 }}>
             {['login', 'cadastro'].map(t => (
               <button key={t} onClick={() => changeTab(t)} style={{
-                flex: 1, padding: '8px 0', border: 'none', borderRadius: 8,
-                background: tab === t ? 'rgba(245,200,66,.15)' : 'transparent',
-                color: tab === t ? '#f5c842' : '#6a7a9a',
-                fontFamily: "'Rajdhani',sans-serif", fontSize: 16, fontWeight: 700,
-                cursor: 'pointer', letterSpacing: 1, textTransform: 'uppercase',
+                flex: 1, padding: '6px 0', border: 'none', borderRadius: 7,
+                background: tab === t ? 'rgba(255,255,255,.06)' : 'transparent',
+                color: tab === t ? '#8a96aa' : '#4a5468',
+                fontFamily: "'Rajdhani',sans-serif", fontSize: 13.5, fontWeight: 600,
+                cursor: 'pointer', letterSpacing: .5,
                 transition: 'all .2s',
               }}>
-                {t === 'login' ? 'Entrar' : 'Cadastrar'}
+                {t === 'login' ? 'Já tenho conta' : 'Criar conta'}
               </button>
             ))}
           </div>
@@ -136,7 +164,7 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
             <input style={inp} type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} required
               onFocus={e => e.target.style.borderColor = 'rgba(245,200,66,.5)'}
               onBlur={e => e.target.style.borderColor = 'rgba(255,200,80,.2)'} />
-            <button type="submit" disabled={loading} style={{ ...btn('linear-gradient(135deg,#f5c842,#e8a020)'), opacity: loading ? .5 : 1 }}>
+            <button type="submit" disabled={loading} style={{ width: '100%', padding: '11px', border: '1px solid rgba(255,255,255,.15)', borderRadius: 10, background: 'rgba(255,255,255,.04)', color: '#c8d4e6', fontFamily: "'Rajdhani',sans-serif", fontSize: 15, fontWeight: 700, cursor: 'pointer', letterSpacing: .5, opacity: loading ? .5 : 1 }}>
               {loading ? 'ENTRANDO...' : 'ENTRAR'}
             </button>
             <button type="button" onClick={() => changeTab('reset')} style={{ background: 'none', border: 'none', color: '#6a7a9a', fontSize: 16, cursor: 'pointer', textDecoration: 'underline', fontFamily: "'Rajdhani',sans-serif" }}>
@@ -165,7 +193,7 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
             <div style={{ fontSize: 15, color: '#6a7a9a', background: 'rgba(245,200,66,.05)', border: '1px solid rgba(245,200,66,.1)', borderRadius: 8, padding: '8px 12px' }}>
               Sua conta começa com saldo R$ 0,00 — sem bônus fictício. Deposite via Pix quando quiser jogar valendo.
             </div>
-            <button type="submit" disabled={loading} style={{ ...btn('linear-gradient(135deg,#00e5b0,#00b88a)'), opacity: loading ? .5 : 1 }}>
+            <button type="submit" disabled={loading} style={{ width: '100%', padding: '11px', border: '1px solid rgba(255,255,255,.15)', borderRadius: 10, background: 'rgba(255,255,255,.04)', color: '#c8d4e6', fontFamily: "'Rajdhani',sans-serif", fontSize: 15, fontWeight: 700, cursor: 'pointer', letterSpacing: .5, opacity: loading ? .5 : 1 }}>
               {loading ? 'CRIANDO CONTA...' : 'CRIAR CONTA GRÁTIS'}
             </button>
           </form>
@@ -189,12 +217,6 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
           </form>
         )}
 
-        {/* Modo simulação (sem login) */}
-        <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,200,80,.08)', textAlign: 'center' }}>
-          <button onClick={onGuest} style={{ background: 'none', border: '1px solid rgba(255,200,80,.15)', borderRadius: 8, color: '#6a7a9a', fontSize: 15, padding: '7px 16px', cursor: 'pointer', fontFamily: "'Rajdhani',sans-serif", fontWeight: 600 }}>
-            🎮 Jogar no modo simulação (sem conta)
-          </button>
-        </div>
       </div>
     </div>
   )

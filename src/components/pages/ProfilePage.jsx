@@ -51,7 +51,7 @@ export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,on
     </div>
     {user && demoMode && (
       <div style={{textAlign:"left",background:"rgba(194,100,255,.07)",border:"1px solid rgba(194,100,255,.25)",borderRadius:10,padding:"10px 14px",marginBottom:10,fontSize:14,color:"#c264ff"}}>
-        🎮 Você está testando em Modo Demo. Os valores abaixo são do seu <strong>saldo real</strong> — o saldo demo não aparece aqui nem afeta depósito/saque.
+        🎮 Você está no modo teste. Os valores abaixo são do seu <strong>saldo real</strong> — o saldo teste não aparece aqui nem afeta depósito/saque.
       </div>
     )}
     {user && referralLink && (

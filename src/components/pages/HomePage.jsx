@@ -78,10 +78,10 @@ export function HomePage({ G, onNav, user, profile, onClaimDaily, fetchTopWins }
           BEM-VINDO AO LONG777
         </div>
         <div className="cd" style={{ fontSize: 39, fontWeight: 900, background: "linear-gradient(90deg,#f5c842,#fff8dc,#f5c842)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1.2, marginBottom: 12 }}>
-          Bora buscar a sorte grande?
+          Bora testar a sorte hoje?
         </div>
         <div style={{ fontSize: 17, color: "#6a7a9a", maxWidth: 440, margin: "0 auto 20px" }}>
-          15 jogos exclusivos. Escolha sua mesa e descubra se hoje é o seu grande dia.
+          {GAMES.length} jogos exclusivos — pode ser o seu dia de sorte de ganhar o 🐉 Dragão Sagrado!
         </div>
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
           {[
