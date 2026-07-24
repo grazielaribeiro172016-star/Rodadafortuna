@@ -2,7 +2,9 @@
 export const CSS=`
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#05070f;color:#eeeaf0;min-height:100vh;overflow-x:hidden;font-family:'Rajdhani',sans-serif;}
+html{overflow-x:hidden;width:100%;}
+body{background:#05070f;color:#eeeaf0;min-height:100vh;width:100%;overflow-x:hidden;font-family:'Rajdhani',sans-serif;}
+#root{overflow-x:hidden;width:100%;}
 .cd{font-family:'Cinzel Decorative',serif!important;}
 .cn{font-family:'Cinzel',serif!important;}
 @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:.6;}90%{opacity:.3;}100%{transform:translateY(-10vh);opacity:0;}}

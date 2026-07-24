@@ -92,9 +92,9 @@ export function MinaGame({G,setG,history,addHistory,user}){
       {Array.from({length:25},(_,i)=>{const rev=mn.rev.includes(i);const bomb=rev&&mn.bombs.includes(i);const tres=rev&&!mn.bombs.includes(i);const sb=!mn.active&&mn.bombs.includes(i)&&!mn.rev.includes(i);return <button key={i} onClick={()=>tap(i)} disabled={!mn.active||rev} style={{aspectRatio:"1",fontSize:26,borderRadius:10,border:`1px solid ${bomb?"rgba(255,61,90,.5)":tres?"rgba(0,229,176,.5)":"rgba(255,200,80,.1)"}`,background:bomb?"rgba(255,61,90,.15)":tres?"rgba(0,229,176,.12)":sb?"rgba(255,61,90,.08)":"rgba(12,18,38,.9)",cursor:mn.active&&!rev?"pointer":"default"}}>{bomb?"💣":tres?"💎":sb?"💣":"❓"}</button>;})}
     </div>
     <WinMsg msg={msg} type={mT} prize={lastResult.prize} bet={lastResult.bet}/>
-    <div style={{display:"flex",gap:8,alignItems:"flex-end"}}>
-      <div style={{flex:1}}><BetRow G={G} setG={setG} onAction={start} label="INICIAR" disabled={mn.active}/></div>
-      <button onClick={saque} disabled={!mn.active||mn.open===0} className="btn-press" style={{padding:"10px 14px",border:"none",borderRadius:10,background:"linear-gradient(135deg,#00e5b0,#00b88a)",color:"#000",fontFamily:"'Cinzel Decorative',serif",fontSize:15,fontWeight:700,cursor:"pointer",opacity:(!mn.active||mn.open===0)?.4:1,whiteSpace:"nowrap",height:42}}>🏆 SACAR</button>
+    <div style={{display:"flex",flexDirection:"column",gap:8}}>
+      <BetRow G={G} setG={setG} onAction={start} label="INICIAR" disabled={mn.active}/>
+      <button onClick={saque} disabled={!mn.active||mn.open===0} className="btn-press" style={{width:"100%",padding:"12px 14px",border:"none",borderRadius:10,background:"linear-gradient(135deg,#00e5b0,#00b88a)",color:"#000",fontFamily:"'Cinzel Decorative',serif",fontSize:15,fontWeight:700,cursor:"pointer",opacity:(!mn.active||mn.open===0)?.4:1}}>🏆 SACAR</button>
     </div>
   </GameLayout>;
 }

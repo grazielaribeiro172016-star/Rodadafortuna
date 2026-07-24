@@ -150,9 +150,9 @@ export function TorreMiniGame({G,setG,history,addHistory,user,demoMode}){
     </div>
     <WinMsg msg={msg} type={mT} prize={lastResult.prize} bet={lastResult.bet}/>
     {stuck&&<button onClick={unstick} className="btn-press" style={{width:"100%",padding:"9px 0",border:"1px solid rgba(255,200,80,.4)",borderRadius:10,background:"rgba(245,200,66,.1)",color:"#f5c842",fontSize:14,fontWeight:700,cursor:"pointer",marginTop:4}}>🔓 Cancelar rodada travada</button>}
-    <div style={{display:"flex",gap:8,alignItems:"flex-end"}}>
-      <div style={{flex:1}}><BetRow G={G} setG={setG} onAction={begin} label="SUBIR A TORRE MINI" disabled={tw.active}/></div>
-      <button onClick={saque} disabled={!tw.active||tw.collected===0} className="btn-press" style={{padding:"10px 14px",border:"none",borderRadius:10,background:"linear-gradient(135deg,#00e5b0,#00b88a)",color:"#000",fontFamily:"'Cinzel Decorative',serif",fontSize:15,fontWeight:700,cursor:"pointer",opacity:(!tw.active||tw.collected===0)?.4:1,whiteSpace:"nowrap",height:42}}>🏆 SACAR</button>
+    <div style={{display:"flex",flexDirection:"column",gap:8}}>
+      <BetRow G={G} setG={setG} onAction={begin} label="SUBIR A TORRE MINI" disabled={tw.active}/>
+      <button onClick={saque} disabled={!tw.active||tw.collected===0} className="btn-press" style={{width:"100%",padding:"12px 14px",border:"none",borderRadius:10,background:"linear-gradient(135deg,#00e5b0,#00b88a)",color:"#000",fontFamily:"'Cinzel Decorative',serif",fontSize:15,fontWeight:700,cursor:"pointer",opacity:(!tw.active||tw.collected===0)?.4:1}}>🏆 SACAR</button>
     </div>
   </GameLayout>;
 }
