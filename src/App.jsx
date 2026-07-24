@@ -17,7 +17,7 @@ import { WalletModal } from "./components/wallet/WalletModal";
 import { WithdrawalModal } from "./components/wallet/WithdrawalModal";
 import { AdminPanel } from "./components/admin/AdminPanel";
 import { CSS } from "./styles/globalStyles";
-import { INI, GAMES, createState } from "./game/constants";
+import { INI, GAMES, VISIBLE_GAMES, createState } from "./game/constants";
 import { setAudioMuted } from "./game/audio";
 import { GameCard } from "./components/pages/GameCard";
 import { HomePage } from "./components/pages/HomePage";
@@ -241,11 +241,11 @@ export default function App(){
 
   function renderRoute(){
     if(route==="/"||route==="/home")return <HomePage G={activeG} onNav={nav} user={user} profile={profile} onClaimDaily={handleClaimDaily} fetchTopWins={fetchTopWins}/>;
-    if(route==="/games")return <div style={{maxWidth:960,margin:"0 auto",padding:"20px 16px 100px"}}><div className="cd" style={{fontSize:24,fontWeight:700,color:"#f5c842",textAlign:"center",marginBottom:20}}>🎮 Todos os Jogos</div><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:16}}>{GAMES.map(g=><GameCard key={g.id} game={g} onClick={()=>nav(`/jogo/${g.id}`)}/>)}</div></div>;
+    if(route==="/games")return <div style={{maxWidth:960,margin:"0 auto",padding:"20px 16px 100px"}}><div className="cd" style={{fontSize:24,fontWeight:700,color:"#f5c842",textAlign:"center",marginBottom:20}}>🎮 Todos os Jogos</div><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:16}}>{VISIBLE_GAMES.map(g=><GameCard key={g.id} game={g} onClick={()=>nav(`/jogo/${g.id}`)}/>)}</div></div>;
     if(route==="/stats")return <StatsPage G={activeG}/>;
     if(route==="/history")return <HistoryPage user={user} fetchHistory={fetchHistory} fetchTransactions={fetchTransactions} fetchGameStats={fetchGameStats} fetchPendingWithdrawals={fetchPendingWithdrawals} cancelWithdrawal={cancelWithdrawal}/>;
     if(route==="/profile")return <ProfilePage G={G} user={user} profile={profile} demoMode={demoMode} onSignOut={handleSignOut} onLogin={()=>setShowAuth(true)} onNav={nav} onDeposit={()=>setShowWallet(true)} onWithdraw={()=>setShowWithdrawal(true)} onCompleteCadastro={()=>{ setWithdrawalInitialStep('kyc'); setShowWithdrawal(true); }}/>;
-    if(route.startsWith("/jogo/")){const id=route.replace("/jogo/","");const C=GC[id];if(C)return <C G={activeG} setG={activeSetG} history={history} addHistory={addHistory} user={user} demoMode={inLocalDemo}/>;}
+    if(route.startsWith("/jogo/")){const id=route.replace("/jogo/","");const meta=GAMES.find(g=>g.id===id);const C=GC[id];if(C&&!meta?.hidden)return <C G={activeG} setG={activeSetG} history={history} addHistory={addHistory} user={user} demoMode={inLocalDemo}/>;}
     return <HomePage G={activeG} onNav={nav} user={user} profile={profile} onClaimDaily={handleClaimDaily} fetchTopWins={fetchTopWins}/>;
   }
 

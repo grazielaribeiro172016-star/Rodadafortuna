@@ -1,4 +1,4 @@
-import { fmt, GAMES } from "../../game/constants";
+import { fmt, GAMES, VISIBLE_GAMES } from "../../game/constants";
 
 // ═══ LAYOUT SHELL ═════════════════════════════════════════════
 export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin,onLogout,guestMode,demoMode=false,onToggleDemo,sessionMinutes=0,onDeposit}){
@@ -8,7 +8,7 @@ export function Header({G,setG,muted,toggleMute,route,onNav,user,profile,onLogin
       {isGame&&<button onClick={()=>onNav("/")} style={{background:"rgba(255,200,80,.08)",border:"1px solid rgba(255,200,80,.2)",color:"#f5c842",padding:"5px 10px",borderRadius:8,cursor:"pointer",fontSize:16,fontWeight:700}}>← Voltar</button>}
       <div style={{display:"flex",alignItems:"center",gap:10}}>
         <div className="lglow" style={{width:38,height:38,background:"linear-gradient(135deg,#f5c842,#e8a020)",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26}}>⭐</div>
-        <div><div className="cd" style={{fontSize:18,fontWeight:700,background:"linear-gradient(90deg,#f5c842,#fff8dc,#f5c842)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:1}}>Long777 龙</div><div style={{fontSize:12,letterSpacing:3,color:"#00e5b0",textTransform:"uppercase"}}>{cg?cg.name:`${GAMES.length} Jogos Exclusivos`}</div></div>
+        <div><div className="cd" style={{fontSize:18,fontWeight:700,background:"linear-gradient(90deg,#f5c842,#fff8dc,#f5c842)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:1}}>Long777 龙</div><div style={{fontSize:12,letterSpacing:3,color:"#00e5b0",textTransform:"uppercase"}}>{cg?cg.name:`${VISIBLE_GAMES.length} Jogos Exclusivos`}</div></div>
       </div>
       {((guestMode && !user) || (user && demoMode)) && (
         <div title="Saldo de teste — RTP idêntico ao modo real" style={{color:"#c264ff",fontSize:11,fontWeight:700,letterSpacing:1,padding:"3px 8px",textTransform:"uppercase",whiteSpace:"nowrap",opacity:.75}}>· teste</div>

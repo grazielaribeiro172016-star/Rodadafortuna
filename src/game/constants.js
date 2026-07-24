@@ -5,7 +5,7 @@ export const BETS=[0.25,0.5,1,2,5,10,20];
 
 export const GAMES=[
   {id:"slot",      emoji:"🎰",name:"Dragão da Sorte",        desc:"🔥 é Wild e substitui qualquer símbolo. 🐉 Dragão oculto vale ×100! Boa sorte!",                  rtp:"~94%",  tag:"CLÁSSICO",   color:"#f5c842",glow:"rgba(245,200,66,.4)",hasStreakBonus:true},
-  {id:"crash",     emoji:"✈️", name:"Crash Avião",       desc:"O multiplicador sobe até crashar. ~52% crasham antes de 2×. Saque na hora certa!",               rtp:"95%",   tag:"AO VIVO",    color:"#00e5b0",glow:"rgba(0,229,176,.4)"},
+  {id:"crash",     emoji:"✈️", name:"Crash Avião",       desc:"O multiplicador sobe até crashar. ~52% crasham antes de 2×. Saque na hora certa!",               rtp:"95%",   tag:"AO VIVO",    color:"#00e5b0",glow:"rgba(0,229,176,.4)",hidden:true},
   {id:"mina",      emoji:"💣",name:"Mina de Tesouro",   desc:"3 bombas em 25 blocos. Cada tesouro aumenta o multiplicador. Saque antes de explodir!",           rtp:"95%",   tag:"ESTRATÉGIA", color:"#ff8c42",glow:"rgba(255,140,66,.4)"},
   {id:"roleta",    emoji:"🎡",name:"Roleta Neon",        desc:"Vermelho e Preto: ×2 (18/37 cada). Dourado: ×6 (1/37). Ponteiro fixo à direita — gire e torça!",  rtp:"94.6%", tag:"SORTE",      color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
   {id:"dados",     emoji:"🎲",name:"Dados da Sorte",    desc:"Role 1 a 100. Fácil ≤50: ×1.90 | Médio ≤35: ×2.71 | Difícil ≤25: ×3.80. Escolha o risco!",       rtp:"95%",   tag:"RISCO",      color:"#4da6ff",glow:"rgba(77,166,255,.4)",hasStreakBonus:true},
@@ -20,6 +20,12 @@ export const GAMES=[
   {id:"baccarat",   emoji:"♠️",name:"Baccarat Real",       desc:"Jogador vs Banca, quem chega mais perto de 9 ganha. Player/Banker: ×2.02 | Empate: ×9.",         rtp:"89-91%",tag:"CARTAS",     color:"#2dde98",glow:"rgba(45,222,152,.4)"},
   {id:"torremini",  emoji:"🗼",name:"Torre Mini",          desc:"Versão rápida da Torre — só 4 andares! Suba ou saque, multiplicador cresce a cada passo.",        rtp:"90%",   tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
 ];
+
+// Jogos visíveis na vitrine (lobby, grid "todos os jogos", contagem no header).
+// Um jogo com hidden:true continua existindo no código e acessível por rota direta
+// não é removido do array GAMES para não quebrar os índices usados internamente
+// (GAMES[0], GAMES[1]...) — só some das listagens.
+export const VISIBLE_GAMES = GAMES.filter(g => !g.hidden);
 
 export function createState(){return{saldo:INI,betIdx:4,rounds:0,wins:0,losses:0,best:0,totalWon:0,dragons:0,streak:0};}
 

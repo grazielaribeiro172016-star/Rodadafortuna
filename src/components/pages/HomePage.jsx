@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { fmt, GAMES } from "../../game/constants";
+import { fmt, GAMES, VISIBLE_GAMES } from "../../game/constants";
 import { GameCard } from "./GameCard";
 
 // Compara a data (formato YYYY-MM-DD, como vem da coluna DATE do Postgres)
@@ -14,7 +14,7 @@ function isTodayBR(dateStr) {
 // dado real de comportamento (não é "mais jogado" nem histórico pessoal),
 // só pra dar hierarquia visual em vez do grid uniforme de 15 jogos.
 function pickFeatured() {
-  const shuffled = [...GAMES].sort(() => Math.random() - 0.5);
+  const shuffled = [...VISIBLE_GAMES].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, 2);
 }
 
@@ -81,7 +81,7 @@ export function HomePage({ G, onNav, user, profile, onClaimDaily, fetchTopWins }
           Bora testar a sorte hoje?
         </div>
         <div style={{ fontSize: 17, color: "#6a7a9a", maxWidth: 440, margin: "0 auto 20px" }}>
-          {GAMES.length} jogos exclusivos — pode ser o seu dia de sorte de ganhar o 🐉 Dragão Sagrado!
+          {VISIBLE_GAMES.length} jogos exclusivos — pode ser o seu dia de sorte de ganhar o 🐉 Dragão Sagrado!
         </div>
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
           {[
@@ -172,7 +172,7 @@ export function HomePage({ G, onNav, user, profile, onClaimDaily, fetchTopWins }
           🎮 Todos os jogos
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(240px,1fr))", gap: 16 }}>
-          {GAMES.map(g => <GameCard key={g.id} game={g} onClick={() => onNav(`/jogo/${g.id}`)} />)}
+          {VISIBLE_GAMES.map(g => <GameCard key={g.id} game={g} onClick={() => onNav(`/jogo/${g.id}`)} />)}
         </div>
       </div>
     </div>
