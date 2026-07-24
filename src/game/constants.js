@@ -3,9 +3,22 @@ export const fmt=v=>"R$ "+Math.abs(+v).toFixed(2).replace(".",",");
 export const INI=100;
 export const BETS=[0.25,0.5,1,2,5,10,20];
 
+// ═══════════════════════════════════════════════════════════════
+// ⚠️ MODO TESTE — turbina o prêmio de TODOS os jogos por este
+// número (1.3 = +30%, 1.6 = +60%, 1 = desligado/valor real).
+// Mude só aqui — não precisa caçar em 15 arquivos.
+//
+// Os textos e paytables agora calculam o multiplicador EFETIVO
+// (base × este boost) em vez de mostrar o número fixo do paytable.
+// Então, com boost 1.3, o Dragão passa a exibir "×130" e pagar
+// R$130,00 numa aposta de R$1 — informação sempre batendo com o
+// valor pago, seja qual for o boost escolhido aqui.
+// ═══════════════════════════════════════════════════════════════
+export const TEST_MODE_PAYOUT_BOOST = 1.3;
+
 export const GAMES=[
-  {id:"slot",      emoji:"🎰",name:"Dragão da Sorte",        desc:"🔥 é Wild e substitui qualquer símbolo. 🐉 Dragão oculto vale ×100! Boa sorte!",                  rtp:"~94%",  tag:"CLÁSSICO",   color:"#f5c842",glow:"rgba(245,200,66,.4)",hasStreakBonus:true},
-  {id:"crash",     emoji:"✈️", name:"Crash Avião",       desc:"O multiplicador sobe até crashar. ~52% crasham antes de 2×. Saque na hora certa!",               rtp:"95%",   tag:"AO VIVO",    color:"#00e5b0",glow:"rgba(0,229,176,.4)",hidden:true},
+  {id:"slot",      emoji:"🐉🐉🐉",name:"Dragão da Sorte",        desc:"🔥 é Wild e substitui qualquer símbolo. 🐉 Dragão oculto vale ×100! Boa sorte!",                  rtp:"~94%",  tag:"CLÁSSICO",   color:"#f5c842",glow:"rgba(245,200,66,.4)",hasStreakBonus:true},
+  {id:"crash",     emoji:"✈️", name:"Crash Avião",       desc:"O multiplicador sobe até crashar. ~52% crasham antes de 2×. Saque na hora certa!",               rtp:"95%",   tag:"AO VIVO",    color:"#00e5b0",glow:"rgba(0,229,176,.4)"},
   {id:"mina",      emoji:"💣",name:"Mina de Tesouro",   desc:"3 bombas em 25 blocos. Cada tesouro aumenta o multiplicador. Saque antes de explodir!",           rtp:"95%",   tag:"ESTRATÉGIA", color:"#ff8c42",glow:"rgba(255,140,66,.4)"},
   {id:"roleta",    emoji:"🎡",name:"Roleta Neon",        desc:"Vermelho e Preto: ×2 (18/37 cada). Dourado: ×6 (1/37). Ponteiro fixo à direita — gire e torça!",  rtp:"94.6%", tag:"SORTE",      color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
   {id:"dados",     emoji:"🎲",name:"Dados da Sorte",    desc:"Role 1 a 100. Fácil ≤50: ×1.90 | Médio ≤35: ×2.71 | Difícil ≤25: ×3.80. Escolha o risco!",       rtp:"95%",   tag:"RISCO",      color:"#4da6ff",glow:"rgba(77,166,255,.4)",hasStreakBonus:true},
@@ -19,19 +32,7 @@ export const GAMES=[
   {id:"numero",     emoji:"🔢",name:"Sorte Numérica",      desc:"1 a 100. Baixo/Alto (1-49 ou 52-100): ×1.85. Número exato: ×85! 50 e 51 ficam com a casa.",       rtp:"85-91%",tag:"NÚMEROS",    color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
   {id:"baccarat",   emoji:"♠️",name:"Baccarat Real",       desc:"Jogador vs Banca, quem chega mais perto de 9 ganha. Player/Banker: ×2.02 | Empate: ×9.",         rtp:"89-91%",tag:"CARTAS",     color:"#2dde98",glow:"rgba(45,222,152,.4)"},
   {id:"torremini",  emoji:"🗼",name:"Torre Mini",          desc:"Versão rápida da Torre — só 4 andares! Suba ou saque, multiplicador cresce a cada passo.",        rtp:"90%",   tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
-  {id:"turfe",      emoji:"🐎",name:"Turfe Relâmpago",     desc:"Escolha seu cavalo. Favorito paga ×2.66, zebra paga ×11.63! Corrida decidida na hora da aposta.", rtp:"~93%",  tag:"CORRIDA",    color:"#ff8c42",glow:"rgba(255,140,66,.4)"},
-  {id:"bau",        emoji:"🎁",name:"Baú Misterioso",      desc:"Escolha 1 de 9 baús e revele o multiplicador na hora. Rápido, direto, sem enrolação.",            rtp:"91%",   tag:"RÁPIDO",     color:"#c264ff",glow:"rgba(194,100,255,.4)"},
-  {id:"sobedesce",  emoji:"🎴",name:"Sobe ou Desce",       desc:"A próxima carta é maior ou menor? Acerte seguido pra multiplicar, saque quando quiser.",         rtp:"~92%",  tag:"ESTRATÉGIA", color:"#00e5b0",glow:"rgba(0,229,176,.4)"},
-  {id:"pesca",      emoji:"🎣",name:"Pesca da Fortuna",    desc:"Lance a linha e veja o que fisga. De uma bota velha ao peixe dourado de ×20!",                    rtp:"~91%",  tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
-  {id:"roda",       emoji:"🎡",name:"Roda da Sorte",       desc:"Gire a roda e veja onde ela para. Do vazio ao setor dourado de ×25!",                            rtp:"~92%",  tag:"RÁPIDO",     color:"#f5c842",glow:"rgba(245,200,66,.4)"},
-  {id:"bingo",      emoji:"🔴",name:"Bingo Relâmpago",     desc:"Escolha 5 números, 20 são sorteados. 3+ acertos pagam — cartela cheia paga ×40!",                 rtp:"~90%",  tag:"AO VIVO",    color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
 ];
-
-// Jogos visíveis na vitrine (lobby, grid "todos os jogos", contagem no header).
-// Um jogo com hidden:true continua existindo no código e acessível por rota direta
-// não é removido do array GAMES para não quebrar os índices usados internamente
-// (GAMES[0], GAMES[1]...) — só some das listagens.
-export const VISIBLE_GAMES = GAMES.filter(g => !g.hidden);
 
 export function createState(){return{saldo:INI,betIdx:4,rounds:0,wins:0,losses:0,best:0,totalWon:0,dragons:0,streak:0};}
 
