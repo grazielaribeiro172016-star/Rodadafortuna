@@ -34,6 +34,11 @@ export const GAMES=[
   {id:"torremini",  emoji:"🗼",name:"Torre Mini",          desc:"Versão rápida da Torre — só 4 andares! Suba ou saque, multiplicador cresce a cada passo.",        rtp:"90%",   tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
 ];
 
+// Lista de jogos exibidos na tela inicial. Por padrão, todos os jogos de GAMES.
+// Se quiser esconder algum jogo da home sem removê-lo do sistema, filtre aqui, ex.:
+// export const VISIBLE_GAMES = GAMES.filter(g => g.id !== "torremini");
+export const VISIBLE_GAMES = GAMES;
+
 export function createState(){return{saldo:INI,betIdx:4,rounds:0,wins:0,losses:0,best:0,totalWon:0,dragons:0,streak:0};}
 
 // Shared by DueloGame and BJGame (both are card games)
