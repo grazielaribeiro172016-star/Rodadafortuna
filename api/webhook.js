@@ -96,9 +96,13 @@ export default async function handler(req, res) {
 
     // payment.status pode ser: pending, approved, authorized, in_process,
     // in_mediation, rejected, cancelled, refunded, charged_back
+    // (refunded/charged_back importam mesmo depois de já aprovado: é o
+    // que aciona a reversão do bônus de indicação em confirm_pix_payment)
     const normalizedStatus = payment.status === 'approved' ? 'approved'
       : payment.status === 'rejected' ? 'rejected'
       : payment.status === 'cancelled' ? 'cancelled'
+      : payment.status === 'refunded' ? 'refunded'
+      : payment.status === 'charged_back' ? 'charged_back'
       : 'pending'
 
     // ── 3. Credita via RPC idempotente ────────────────────────

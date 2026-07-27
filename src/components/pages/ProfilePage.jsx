@@ -1,37 +1,12 @@
-import { useState, useEffect } from "react";
 import { Panel } from "../shared/Panel";
 import { fmt, INI } from "../../game/constants";
-import { supabase, hasSupabase } from "../../lib/supabase";
+import { ReferralPanel } from "./ReferralPanel";
 
 export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,onWithdraw,onCompleteCadastro,demoMode}){
   const level=G.rounds<20?"Iniciante":G.rounds<100?"Aventureiro":G.rounds<500?"Veterano":"Lendário";
   const lc={Iniciante:"#6a7a9a",Aventureiro:"#4da6ff",Veterano:"#f5c842",Lendário:"#c264ff"}[level];
   const lucro=G.saldo-INI;
   const kycComplete=!!(profile?.full_name&&profile?.document_number);
-
-  // Fase 9: link de indicação + estatísticas (via RPC, só leitura própria)
-  const[refStats,setRefStats]=useState(null);
-  const[copied,setCopied]=useState(false);
-  const referralLink = profile?.username ? `${window.location.origin}/?ref=${profile.username}` : null;
-  useEffect(()=>{
-    if(!hasSupabase||!user) return;
-    let alive=true;
-    supabase.rpc('get_referral_stats').then(({data})=>{ if(alive&&data) setRefStats(data); }).catch(()=>{});
-    return ()=>{alive=false};
-  },[user]);
-  function copyReferralLink(){
-    if(!referralLink) return;
-    navigator.clipboard?.writeText(referralLink).then(()=>{ setCopied(true); setTimeout(()=>setCopied(false),2000); });
-  }
-
-  // Comissão real de indicação (depósitos de indicados) — separado do bônus demo acima
-  const[affStats,setAffStats]=useState(null);
-  useEffect(()=>{
-    if(!hasSupabase||!user) return;
-    let alive=true;
-    supabase.rpc('get_affiliate_stats').then(({data})=>{ if(alive&&data) setAffStats(data); }).catch(()=>{});
-    return ()=>{alive=false};
-  },[user]);
 
   return <div style={{maxWidth:480,margin:"0 auto",padding:"24px 16px 100px",textAlign:"center"}}>
     <div style={{fontSize:95,marginBottom:12}}>⭐</div>
@@ -54,29 +29,7 @@ export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,on
         🎮 Você está no modo teste. Os valores abaixo são do seu <strong>saldo real</strong> — o saldo teste não aparece aqui nem afeta depósito/saque.
       </div>
     )}
-    {user && referralLink && (
-      <div style={{textAlign:"left",background:"linear-gradient(135deg,rgba(194,100,255,.08),rgba(194,100,255,.03))",border:"1px solid rgba(194,100,255,.25)",borderRadius:12,padding:"14px 16px",marginBottom:16}}>
-        <div style={{fontSize:15,color:"#c264ff",fontWeight:700,marginBottom:4}}>🎁 Convide um amigo</div>
-        <div style={{fontSize:13,color:"#9aa6ba",marginBottom:10,lineHeight:1.4}}>
-          Cada amigo que entrar com seu link ganha bônus de saldo demo na primeira rodada. E não para aí — toda vez que ele depositar de verdade, uma comissão cai direto no seu saldo real. 💰
-        </div>
-        <div style={{display:"flex",gap:8,marginBottom:refStats?10:0}}>
-          <div style={{flex:1,background:"rgba(0,0,0,.3)",border:"1px solid rgba(255,255,255,.1)",borderRadius:8,padding:"9px 10px",fontSize:13,color:"#c8d4e6",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{referralLink}</div>
-          <button onClick={copyReferralLink} className="btn-press" style={{flexShrink:0,padding:"9px 14px",border:"none",borderRadius:8,background:copied?"linear-gradient(135deg,#00e5b0,#00b88a)":"linear-gradient(135deg,#c264ff,#9040dd)",color:"#000",fontWeight:700,fontSize:13,cursor:"pointer"}}>{copied?"Copiado ✓":"Copiar"}</button>
-        </div>
-        {refStats && (refStats.credited>0||refStats.pending>0) && (
-          <div style={{fontSize:12.5,color:"#8a96aa"}}>
-            {refStats.credited>0 && <>✅ {refStats.credited} amigo{refStats.credited>1?"s":""} já jogaram e renderam bônus. </>}
-            {refStats.pending>0 && <>⏳ {refStats.pending} cadastrado{refStats.pending>1?"s":""}, aguardando a 1ª rodada.</>}
-          </div>
-        )}
-        {affStats && affStats.total_earned > 0 && (
-          <div style={{fontSize:13,color:"#f5c842",fontWeight:700,marginTop:8,paddingTop:8,borderTop:"1px solid rgba(255,255,255,.08)"}}>
-            💵 Você já ganhou {fmt(affStats.total_earned)} em comissões reais de depósitos de indicados!
-          </div>
-        )}
-      </div>
-    )}
+    {user && <ReferralPanel user={user} profile={profile} />}
     {user && !kycComplete && (
       <div onClick={onCompleteCadastro} style={{cursor:"pointer",textAlign:"left",background:"rgba(245,200,66,.07)",border:"1px solid rgba(245,200,66,.25)",borderRadius:10,padding:"10px 14px",marginBottom:10,fontSize:15,color:"#f5c842",display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
         <span>📋 Complete seu cadastro (nome/CPF) pra sacar mais rápido depois</span>

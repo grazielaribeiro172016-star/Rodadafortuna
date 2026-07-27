@@ -99,16 +99,28 @@ export default function App(){
   const urlParams = new URLSearchParams(window.location.search);
   const isAdminRoute = route === '/admin' && urlParams.get('key') === (import.meta.env.VITE_ADMIN_PANEL_KEY || '__no_key_set__');
 
-  // Fase 9: captura ?ref=username (link de indicação) uma única vez e
-  // guarda na sessão até o cadastro acontecer — não é enviado a lugar
-  // nenhum ainda, só fica disponível pro AuthModal usar no signUp.
+  // Fase 10: captura o código de indicação — tanto no formato novo
+  // /r/{codigo} quanto no antigo ?ref=username (compatibilidade com
+  // links já compartilhados) — uma única vez, e guarda na sessão até
+  // o cadastro acontecer. Não é enviado a lugar nenhum ainda, só fica
+  // disponível pro AuthModal usar no signUp.
   const [refCode] = useState(() => {
     try {
-      const fromUrl = urlParams.get('ref');
+      const rMatch = route.match(/^\/r\/([A-Za-z0-9]+)$/);
+      const fromRoute = rMatch ? rMatch[1] : null;
+      const fromUrl = fromRoute || urlParams.get('ref');
       if (fromUrl) { sessionStorage.setItem('ftg_ref_code', fromUrl); return fromUrl; }
       return sessionStorage.getItem('ftg_ref_code') || null;
     } catch { return null; }
   });
+  // /r/{codigo} é só um link bonito pra compartilhar — depois de capturar
+  // o código, a navegação continua normal a partir da home.
+  useEffect(() => {
+    if (/^\/r\/[A-Za-z0-9]+$/.test(route)) {
+      window.history.replaceState({}, '', '/');
+      setRoute('/');
+    }
+  }, []);
   // Evita chamar a RPC de crédito toda hora — 1 tentativa por carregamento
   // de página já basta, ela mesma é idempotente (só credita 1x no banco).
   const referralAttemptedRef = useRef(false);

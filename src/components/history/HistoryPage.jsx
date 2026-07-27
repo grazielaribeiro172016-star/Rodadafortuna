@@ -238,11 +238,11 @@ export function HistoryPage({ user, fetchHistory, fetchTransactions, fetchGameSt
             ? <div style={{ textAlign: 'center', color: '#6a7a9a', fontSize: 16, padding: 20 }}>Nenhuma transação ainda.</div>
             : <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 450, overflowY: 'auto' }} className="ns">
               {transactions.map(t => {
-                const isWin = t.type === 'game_win' || t.type === 'deposit'
+                const isWin = t.type === 'game_win' || t.type === 'deposit' || t.type === 'referral_bonus'
                 return (
                   <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 8, background: 'rgba(255,255,255,.02)', borderLeft: `3px solid ${isWin ? '#2dde98' : '#ff3d5a'}` }}>
                     <span style={{ fontSize: 24 }}>
-                      {t.type === 'deposit' ? '💳' : t.type === 'withdrawal' ? '🏦' : isWin ? '🏆' : '❌'}
+                      {t.type === 'deposit' ? '💳' : t.type === 'withdrawal' ? '🏦' : t.type === 'referral_bonus' ? '🎁' : t.type === 'referral_reversal' ? '↩️' : isWin ? '🏆' : '❌'}
                     </span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 15, color: '#eeeaf0', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

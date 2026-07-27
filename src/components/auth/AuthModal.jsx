@@ -178,7 +178,7 @@ export function AuthModal({ onAuth, onGuest, authError, setAuthError, signIn, si
           <form onSubmit={handleCadastro} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {refCode && (
               <div style={{ fontSize: 14.5, color: '#c264ff', background: 'rgba(194,100,255,.08)', border: '1px solid rgba(194,100,255,.25)', borderRadius: 8, padding: '8px 12px', fontWeight: 600 }}>
-                🎁 Convidado por <strong>@{refCode}</strong> — vocês dois ganham um bônus de saldo demo assim que você jogar a primeira rodada.
+                🎁 Convidado por <strong>@{refCode}</strong> — vocês dois já saem ganhando: bônus de saldo demo na primeira rodada, e assim que você fizer seu primeiro depósito, ele recebe um bônus de verdade.
               </div>
             )}
             <input style={inp} type="text" placeholder="Nome de usuário (min. 3 caracteres)" value={username} onChange={e => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))} required
