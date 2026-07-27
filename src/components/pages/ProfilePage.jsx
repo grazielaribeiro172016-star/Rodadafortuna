@@ -1,11 +1,10 @@
 import { Panel } from "../shared/Panel";
-import { fmt, INI } from "../../game/constants";
+import { fmt } from "../../game/constants";
 import { ReferralPanel } from "./ReferralPanel";
 
 export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,onWithdraw,onCompleteCadastro,demoMode}){
   const level=G.rounds<20?"Iniciante":G.rounds<100?"Aventureiro":G.rounds<500?"Veterano":"Lendário";
   const lc={Iniciante:"#6a7a9a",Aventureiro:"#4da6ff",Veterano:"#f5c842",Lendário:"#c264ff"}[level];
-  const lucro=G.saldo-INI;
   const kycComplete=!!(profile?.full_name&&profile?.document_number);
 
   return <div style={{maxWidth:480,margin:"0 auto",padding:"24px 16px 100px",textAlign:"center"}}>
@@ -22,7 +21,7 @@ export function ProfilePage({G,user,profile,onSignOut,onLogin,onNav,onDeposit,on
       {[{e:"🎮",v:G.rounds,l:"Rodadas"},{e:"🏆",v:G.wins,l:"Vitórias"},{e:"🐉",v:G.dragons,l:"Dragões"}].map(s=><Panel key={s.l}><div style={{fontSize:32}}>{s.e}</div><div className="cn" style={{fontSize:29,fontWeight:700,color:"#f5c842"}}>{s.v}</div><div style={{fontSize:14,color:"#6a7a9a",textTransform:"uppercase",letterSpacing:1}}>{s.l}</div></Panel>)}
     </div>
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:20}}>
-      {[{l:"Saldo",v:fmt(G.saldo),c:"#f5c842"},{l:"Lucro/Prejuízo",v:(lucro>=0?"+":"")+fmt(lucro),c:lucro>=0?"#2dde98":"#ff3d5a"},{l:"Melhor Prêmio",v:fmt(G.best),c:"#00e5b0"},{l:"Streak 🔥",v:G.streak,c:"#f5c842"}].map(s=><Panel key={s.l}><div style={{fontSize:14,color:"#6a7a9a",letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>{s.l}</div><div className="cn" style={{fontSize:24,fontWeight:700,color:s.c}}>{s.v}</div></Panel>)}
+      {[{l:"Saldo",v:fmt(G.saldo),c:"#f5c842"},{l:"Total Ganho",v:fmt(G.totalWon),c:"#2dde98"},{l:"Melhor Prêmio",v:fmt(G.best),c:"#00e5b0"},{l:"Streak 🔥",v:G.streak,c:"#f5c842"}].map(s=><Panel key={s.l}><div style={{fontSize:14,color:"#6a7a9a",letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>{s.l}</div><div className="cn" style={{fontSize:24,fontWeight:700,color:s.c}}>{s.v}</div></Panel>)}
     </div>
     {user && demoMode && (
       <div style={{textAlign:"left",background:"rgba(194,100,255,.07)",border:"1px solid rgba(194,100,255,.25)",borderRadius:10,padding:"10px 14px",marginBottom:10,fontSize:14,color:"#c264ff"}}>

@@ -32,12 +32,20 @@ export const GAMES=[
   {id:"numero",     emoji:"🔢",name:"Sorte Numérica",      desc:"1 a 100. Baixo/Alto (1-49 ou 52-100): ×1.85. Número exato: ×85! 50 e 51 ficam com a casa.",       rtp:"85-91%",tag:"NÚMEROS",    color:"#ff3d5a",glow:"rgba(255,61,90,.4)"},
   {id:"baccarat",   emoji:"♠️",name:"Baccarat Real",       desc:"Jogador vs Banca, quem chega mais perto de 9 ganha. Player/Banker: ×2.02 | Empate: ×9.",         rtp:"89-91%",tag:"CARTAS",     color:"#2dde98",glow:"rgba(45,222,152,.4)"},
   {id:"torremini",  emoji:"🗼",name:"Torre Mini",          desc:"Versão rápida da Torre — só 4 andares! Suba ou saque, multiplicador cresce a cada passo.",        rtp:"90%",   tag:"RÁPIDO",     color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
+  {id:"turfe",      emoji:"🐎",name:"Turfe Relâmpago",      desc:"Escolha 1 de 5 cavalos e torça na corrida! Zebra é azarão e paga até ×11,63. Ação rápida!",        rtp:"~93%",  tag:"CORRIDA",    color:"#ff8c42",glow:"rgba(255,140,66,.4)",hasStreakBonus:true},
+  {id:"bau",        emoji:"🎁",name:"Baú Misterioso",       desc:"9 baús no tabuleiro — escolha um e descubra o prêmio! Pode pagar até ×21. Sorte pura!",           rtp:"91%",   tag:"MISTÉRIO",   color:"#c264ff",glow:"rgba(194,100,255,.4)"},
+  {id:"sobedesce",  emoji:"🎴",name:"Sobe ou Desce Contínuo",desc:"Acerte se a próxima carta sobe ou desce e o multiplicador acumula. Saque quando quiser!",        rtp:"~92%",  tag:"SEQUÊNCIA",  color:"#00e5b0",glow:"rgba(0,229,176,.4)"},
+  {id:"pesca",      emoji:"🎣",name:"Pesca da Fortuna",     desc:"Lance a linha e veja o que fisga! De uma bota velha a um prêmio de ×20. Sempre uma surpresa.",     rtp:"~91%",  tag:"PESCA",      color:"#4da6ff",glow:"rgba(77,166,255,.4)"},
+  {id:"roda",       emoji:"🍀",name:"Roda da Sorte",        desc:"Gire a roda e torça pelo setor dourado! 12 setores, prêmios de ×0,3 até ×25. Vicia rápido!",       rtp:"~92%",  tag:"RODA",       color:"#f5c842",glow:"rgba(245,200,66,.4)"},
+  {id:"bingo",      emoji:"🔴",name:"Bingo Relâmpago",      desc:"Escolha 5 números de 1 a 50, 20 são sorteados. 3 acertos paga ×1,5 | 4: ×3,75 | 5: ×40!",          rtp:"~90%",  tag:"BINGO",      color:"#2dde98",glow:"rgba(45,222,152,.4)"},
 ];
 
-// Lista de jogos exibidos na tela inicial. Por padrão, todos os jogos de GAMES.
-// Se quiser esconder algum jogo da home sem removê-lo do sistema, filtre aqui, ex.:
-// export const VISIBLE_GAMES = GAMES.filter(g => g.id !== "torremini");
-export const VISIBLE_GAMES = GAMES;
+// Lista de jogos exibidos na tela inicial. Por padrão, todos os jogos de GAMES,
+// exceto o Crash Avião, que foi desativado (conflito de arquitetura de segurança
+// no servidor). Ele continua em GAMES pra não quebrar histórico/rotas antigas.
+// O contador "X Jogos Exclusivos" no header/home é automático: sempre reflete
+// o tamanho real de VISIBLE_GAMES — não precisa atualizar nenhum número à mão.
+export const VISIBLE_GAMES = GAMES.filter(g => g.id !== "crash");
 
 export function createState(){return{saldo:INI,betIdx:4,rounds:0,wins:0,losses:0,best:0,totalWon:0,dragons:0,streak:0};}
 
