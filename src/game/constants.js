@@ -14,7 +14,7 @@ export const BETS=[0.25,0.5,1,2,5,10,20];
 // R$130,00 numa aposta de R$1 — informação sempre batendo com o
 // valor pago, seja qual for o boost escolhido aqui.
 // ═══════════════════════════════════════════════════════════════
-export const TEST_MODE_PAYOUT_BOOST = 15;
+export const TEST_MODE_PAYOUT_BOOST = 1.0;
 
 export const GAMES=[
   {id:"slot",      emoji:"🐉🐉🐉",name:"Dragão da Sorte",        desc:"🔥 é Wild e substitui qualquer símbolo. 🐉 Dragão oculto vale ×100! Boa sorte!",                  rtp:"~94%",  tag:"CLÁSSICO",   color:"#f5c842",glow:"rgba(245,200,66,.4)",hasStreakBonus:true},
